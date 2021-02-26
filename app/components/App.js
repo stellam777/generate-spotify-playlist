@@ -24,7 +24,7 @@ function App() {
     return (
       <div className='container mt-4'>
         <div className="row float-right">
-          <button className="btn-info">Log Out</button>
+          <a href={'/auth/logout'}><button className="btn-info">Log Out</button></a>
         </div>
         <PlaylistGenerator auth={auth}/>
       </div>

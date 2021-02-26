@@ -60,6 +60,13 @@ router.get('/current-session', (req, res) => {
     });
 })
 
+router.get('/logout', (req, res) => {
+    req.session = null;
+    res.redirect(
+        `/`
+    );
+});
+
 
 // router.put('/login', async (req, res, next) => {
 //   try {

@@ -26,7 +26,7 @@ const PlaylistGenerator = (props) => {
   //Logged in user info, will probs move to own component
   const [username, setUsername] = useState('');
 
-  const searchSpotify = async (e) => {
+  const searchSpotify = async () => {
     const url = 'https://api.spotify.com/v1/search';
     const searchQuery = encodeURIComponent(searchString);
     const typeQuery = `type=artist`;
@@ -64,8 +64,8 @@ const PlaylistGenerator = (props) => {
 
   const changeHandler = (e) => {
     setSearchString(e.target.value);
-    if (e.target.value.length > 1) {
-      searchSpotify(e);
+    if (e.target.value.length > 3) {
+      searchSpotify();
     }
   };
 
@@ -106,13 +106,14 @@ const PlaylistGenerator = (props) => {
     if (selectedSearchStrings.length > 0) {
       let justArtists = selectedSearchStrings.map((artist) => artist.id);
       requestString = `seed_artists=${justArtists.join(',')}`;
-    }
+    //}
     const { data } = await axios.get(`${url}?${requestString}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     setRecResults(data.tracks);
+    }
   }, [selectedSearchStrings]);
 
   return (
@@ -124,7 +125,7 @@ const PlaylistGenerator = (props) => {
             Enter an artist below to generate a new recommended playlist
           </label>
           <input
-            autoComplete="chrome-off"
+            autoComplete='off'
             type='text'
             name='search'
             className='form-control'

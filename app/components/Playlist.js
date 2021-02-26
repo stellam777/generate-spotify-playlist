@@ -10,7 +10,7 @@ const Playlist = ({ recResults }) => {
           <h2>Tracklist</h2>
         </div>
         <div className="col">
-          <p className="text-right">Track count:{recResults.length} </p>
+          <p className="text-right"><strong>Track count: {recResults.length}</strong></p>
         </div>
       </div>
       {recResults.map((track) => {

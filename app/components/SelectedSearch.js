@@ -7,7 +7,7 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
 
   const removeArtist = (e) => {
     if(e.target.parentElement.parentElement.classList.contains("iTag")) {
-      e.target.parentElement.remove();
+      e.target.parentElement.parentElement.remove();
 
       let justArtist = selectedSearchStrings.map(artist => artist.name);
       let itemToDeleteIndex = justArtist.indexOf(e.target.parentElement.innerText);
@@ -15,11 +15,14 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
         selectedSearchStrings.splice(itemToDeleteIndex, 1);
       }
     }
+    console.log("HI FROM SELECTED SEARCH", selectedSearchStrings)
   }
 
   return (
-    <div className="row">
-      {selectedSearchStrings.map(artist => <ul className="iTag row" key={artist.id}><li>{artist.name}<i onClick={removeArtist} className="fas fa-times ml-2"></i></li></ul>)}
+    <div className="container">
+      <div className="row">
+        {selectedSearchStrings.map(artist => <div className="iTag col-1 p-0" key={artist.id}><p>{artist.name}<i onClick={removeArtist} className="fas fa-times ml-2"></i></p></div>)}
+      </div>
     </div>
   )
 }
