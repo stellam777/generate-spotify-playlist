@@ -18,8 +18,8 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
   }
 
   return (
-    <div className="selected-items">
-      {selectedSearchStrings.map(artist => <ul className="iTag" key={artist.id}><li>{artist.name}<i onClick={removeArtist} className="fas fa-times"></i></li></ul>)}
+    <div className="row">
+      {selectedSearchStrings.map(artist => <ul className="iTag row" key={artist.id}><li>{artist.name}<i onClick={removeArtist} className="fas fa-times ml-2"></i></li></ul>)}
     </div>
   )
 }
