@@ -64,7 +64,7 @@ const PlaylistGenerator = (props) => {
 
   const changeHandler = (e) => {
     setSearchString(e.target.value);
-    if (e.target.value.length > 3) {
+    if (e.target.value.length > 2) {
       searchSpotify();
     }
   };
@@ -101,6 +101,8 @@ const PlaylistGenerator = (props) => {
   }, []);
 
   useEffect(async () => {
+    let mounted = true;
+
     const url = 'https://api.spotify.com/v1/recommendations';
     let requestString;
     if (selectedSearchStrings.length > 0) {
@@ -112,8 +114,12 @@ const PlaylistGenerator = (props) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    setRecResults(data.tracks);
+
+    if(mounted) {
+      setRecResults(data.tracks);
+      }
     }
+    return () => (mounted = false);
   }, [selectedSearchStrings]);
 
   return (
