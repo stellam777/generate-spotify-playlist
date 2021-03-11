@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SelectedSearch from './SelectedSearch';
 import Playlist from './Playlist';
+import AddToSpotifyForm from './AddToSpotifyForm';
 
 const PlaylistGenerator = (props) => {
   const auth = props.auth;
@@ -12,7 +13,7 @@ const PlaylistGenerator = (props) => {
 
   //the array of string(s) selected by user from dropdown, can be max of 3 - ideally we'll be querying the recs endpoint with this array so NEED ARTIST ID
   const [selectedSearchStrings, setSelectedSearchStrings] = useState([]);
-  const [isSelected, setIsSelected] = useState(false); //used to as conditional for rendering SelectedSearch component
+  const [isSelected, setIsSelected] = useState(false); //used as conditional for rendering SelectedSearch component
 
   //initial data we get back from search get call
   const [searchResults, setSearchResults] = useState([]);
@@ -85,13 +86,13 @@ const PlaylistGenerator = (props) => {
   // }
 
   useEffect(async () => {
+    //get user
     let mounted = true;
     const { data } = await axios.get('https://api.spotify.com/v1/me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
     if (mounted) {
       if (data) {
         setUsername(data.display_name);
@@ -101,22 +102,21 @@ const PlaylistGenerator = (props) => {
   }, []);
 
   useEffect(async () => {
+    //get recommendations
     let mounted = true;
-
     const url = 'https://api.spotify.com/v1/recommendations';
     let requestString;
     if (selectedSearchStrings.length > 0) {
       let justArtists = selectedSearchStrings.map((artist) => artist.id);
       requestString = `seed_artists=${justArtists.join(',')}`;
-    //}
-    const { data } = await axios.get(`${url}?${requestString}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if(mounted) {
-      setRecResults(data.tracks);
+      //}
+      const { data } = await axios.get(`${url}?${requestString}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (mounted) {
+        setRecResults(data.tracks);
       }
     }
     return () => (mounted = false);
@@ -159,6 +159,11 @@ const PlaylistGenerator = (props) => {
           </ul>
           {selectedSearchStrings.length ? (
             <Playlist recResults={recResults} />
+          ) : (
+            ''
+          )}
+          {selectedSearchStrings.length ? (
+            <AddToSpotifyForm recResults={recResults} />
           ) : (
             ''
           )}
