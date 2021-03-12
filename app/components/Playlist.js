@@ -4,7 +4,7 @@ import SingleTrack from './SingleTrack';
 const Playlist = ({ recResults }) => {
 //console.log("HI FROM PLAYLIST", selectedSearchStrings)
   return (
-    <div className="container-fluid mt-4">
+    <div className="col-lg-9">
       <div className="row m-4">
         <div className="col">
           <h2>Tracklist</h2>

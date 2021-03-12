@@ -26,6 +26,7 @@ const PlaylistGenerator = (props) => {
 
   //Logged in user info, will probs move to own component
   const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
 
   const searchSpotify = async () => {
     const url = 'https://api.spotify.com/v1/search';
@@ -96,6 +97,7 @@ const PlaylistGenerator = (props) => {
     if (mounted) {
       if (data) {
         setUsername(data.display_name);
+        setUserId(data.id);
       }
     }
     return () => (mounted = false);
@@ -109,8 +111,8 @@ const PlaylistGenerator = (props) => {
     if (selectedSearchStrings.length > 0) {
       let justArtists = selectedSearchStrings.map((artist) => artist.id);
       requestString = `seed_artists=${justArtists.join(',')}`;
-      //}
-      const { data } = await axios.get(`${url}?${requestString}`, {
+      //const songCount = "limit=*****"
+      const { data } = await axios.get(`${url}?limit=30&${requestString}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -123,7 +125,7 @@ const PlaylistGenerator = (props) => {
   }, [selectedSearchStrings]);
 
   return (
-    <div className='container'>
+    <div className='container-fluid'>
       <h1>Hi, {username}</h1>
       <div>
         <div className='form-group'>
@@ -131,6 +133,7 @@ const PlaylistGenerator = (props) => {
             Enter an artist below to generate a new recommended playlist
           </label>
           <input
+            placeholder="Search by Artist"
             autoComplete='off'
             type='text'
             name='search'
@@ -138,35 +141,41 @@ const PlaylistGenerator = (props) => {
             onChange={changeHandler}
             value={searchString}
           />
-          {isSelected && (
-            <SelectedSearch
-              recResults={recResults}
-              selectedSearchStrings={selectedSearchStrings}
-              setSelectedSearchStrings={setSelectedSearchStrings}
-            />
-          )}
-          <ul className='list-group'>
-            {searchString &&
-              autoCompleteText.map((artist) => (
-                <li
-                  className='list-group-item'
-                  key={artist.id}
-                  onClick={() => selectArtist(artist)}
-                >
-                  {artist.name}
-                </li>
-              ))}
-          </ul>
-          {selectedSearchStrings.length ? (
-            <Playlist recResults={recResults} />
-          ) : (
-            ''
-          )}
-          {selectedSearchStrings.length ? (
-            <AddToSpotifyForm recResults={recResults} />
-          ) : (
-            ''
-          )}
+          <div className='row'>
+            {isSelected && (
+              <SelectedSearch
+                recResults={recResults}
+                selectedSearchStrings={selectedSearchStrings}
+                setSelectedSearchStrings={setSelectedSearchStrings}
+              />
+            )}
+            <ul className='list-group'>
+              {searchString &&
+                autoCompleteText.map((artist) => (
+                  <li
+                    className='list-group-item'
+                    key={artist.id}
+                    onClick={() => selectArtist(artist)}
+                  >
+                    {artist.name}
+                  </li>
+                ))}
+            </ul>
+            {selectedSearchStrings.length ? (
+              <Playlist recResults={recResults} />
+            ) : (
+              ''
+            )}
+            {selectedSearchStrings.length ? (
+              <AddToSpotifyForm
+                auth={auth}
+                userId={userId}
+                recResults={recResults}
+              />
+            ) : (
+              ''
+            )}
+          </div>
         </div>
       </div>
     </div>

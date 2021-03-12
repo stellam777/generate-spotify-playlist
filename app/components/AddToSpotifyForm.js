@@ -1,9 +1,10 @@
 import React from 'react';
 import Switch from 'react-switch';
+import axios from 'axios';
 
 //true = public, false = private
 const initState = {
-  name: '',
+  name: 'Traxx:',
   checked: true,
 };
 
@@ -13,18 +14,46 @@ class AddToSpotifyForm extends React.Component {
     this.state = initState;
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.createPlaylist = this.createPlaylist.bind(this);
+  }
+
+  async createPlaylist() {
+    const { recResults, userId, auth } = this.props;
+    const token = auth.token;
+
+    //create playlist
+    const info = { name: this.state.name, public: this.state.checked };
+    const url = `https://api.spotify.com/v1/users/${userId}/playlists`;
+    const { data } = await axios.post(`${url}`, info, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    //add songs to playlist
+    const playlistId = data.id;
+    const addItemsUrl = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+    const uris = [...recResults].map(track => track.uri);
+
+    if(data) {
+      const { nextData } = await axios.post(`${addItemsUrl}`, JSON.stringify({"uris": uris}), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    // (1) creates the new playlist (2) adds items to the playlist
-    console.log('PROPS', this.props.recResults);
+    this.createPlaylist();
+    this.setState(initState)
   }
 
   render() {
-    //console.log('HANDLE CHANGE', this.state);
+    //console.log('PROPS', this.props);
     return (
-      <div>
+      <div className="col-lg-3">
         <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
             <label htmlFor='name'>Playlist Name</label>
