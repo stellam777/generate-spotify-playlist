@@ -3,6 +3,8 @@ import axios from 'axios';
 import SelectedSearch from './SelectedSearch';
 import Playlist from './Playlist';
 import AddToSpotifyForm from './AddToSpotifyForm';
+import SeedsForm from './SeedsForm';
+import initialSeeds from './seeds'
 
 const PlaylistGenerator = (props) => {
   const auth = props.auth;
@@ -23,6 +25,9 @@ const PlaylistGenerator = (props) => {
 
   //Track data from recommendations get request (includes artist info)
   const [recResults, setRecResults] = useState([]);
+
+  //Seeds values obj
+  const [seedValues, setSeedValues] = useState(initialSeeds)
 
   //Logged in user info, will probs move to own component
   const [username, setUsername] = useState('');
@@ -71,20 +76,33 @@ const PlaylistGenerator = (props) => {
     }
   };
 
-  // const getRecommendations = async () => {
-  //   const url = 'https://api.spotify.com/v1/recommendations';
-  //   let requestString;
-  //   if(selectedSearchStrings.length > 0) {
-  //     let justArtists = selectedSearchStrings.map(artist => artist.id);
-  //     requestString = `seed_artists=${justArtists.join(',')}`;
-  //   }
-  //   const { data } = await axios.get(`${url}?${requestString}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     }
-  //   })
-  //   setRecResults(data.tracks)
-  // }
+  const getRecs = async () => {
+    let mounted = true;
+    const url = 'https://api.spotify.com/v1/recommendations';
+    let requestString;
+    if (selectedSearchStrings.length > 0) {
+      let justArtists = selectedSearchStrings.map((artist) => artist.id);
+      requestString = `seed_artists=${justArtists.join(',')}`;
+
+      let seedsArr = [];
+      Object.keys(seedValues).forEach((seed) => {
+        if(seedValues[seed].enabled) {
+          seedsArr.push(`min_${seed}=${seedValues[seed].value[0]}&max_${seed}=${seedValues[seed].value[1]}`)
+        }
+      })
+      let seedString = seedsArr.join("&");
+
+      const { data } = await axios.get(`${url}?limit=30&${requestString}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (mounted) {
+        setRecResults(data.tracks);
+      }
+    }
+    return () => (mounted = false);
+  }
 
   useEffect(async () => {
     //get user
@@ -104,25 +122,8 @@ const PlaylistGenerator = (props) => {
   }, []);
 
   useEffect(async () => {
-    //get recommendations
-    let mounted = true;
-    const url = 'https://api.spotify.com/v1/recommendations';
-    let requestString;
-    if (selectedSearchStrings.length > 0) {
-      let justArtists = selectedSearchStrings.map((artist) => artist.id);
-      requestString = `seed_artists=${justArtists.join(',')}`;
-      //const songCount = "limit=*****"
-      const { data } = await axios.get(`${url}?limit=30&${requestString}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (mounted) {
-        setRecResults(data.tracks);
-      }
-    }
-    return () => (mounted = false);
-  }, [selectedSearchStrings]);
+    getRecs();
+  }, [selectedSearchStrings, seedValues]);
 
   return (
     <div className='container-fluid'>
@@ -147,6 +148,8 @@ const PlaylistGenerator = (props) => {
                 recResults={recResults}
                 selectedSearchStrings={selectedSearchStrings}
                 setSelectedSearchStrings={setSelectedSearchStrings}
+                seedValues={seedValues}
+                setSeedValues={setSeedValues}
               />
             )}
             <ul className='list-group'>
@@ -167,11 +170,14 @@ const PlaylistGenerator = (props) => {
               ''
             )}
             {selectedSearchStrings.length ? (
-              <AddToSpotifyForm
-                auth={auth}
-                userId={userId}
-                recResults={recResults}
-              />
+              <div className="col-lg-3">
+                <AddToSpotifyForm
+                  auth={auth}
+                  userId={userId}
+                  recResults={recResults}
+                />
+                <SeedsForm seedValues={seedValues} setSeedValues={setSeedValues}/>
+              </div>
             ) : (
               ''
             )}

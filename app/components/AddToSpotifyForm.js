@@ -53,7 +53,7 @@ class AddToSpotifyForm extends React.Component {
   render() {
     //console.log('PROPS', this.props);
     return (
-      <div className="col-lg-3">
+      <div>
         <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
             <label htmlFor='name'>Playlist Name</label>
