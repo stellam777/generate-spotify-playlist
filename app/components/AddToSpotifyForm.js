@@ -4,7 +4,7 @@ import axios from 'axios';
 
 //true = public, false = private
 const initState = {
-  name: 'Traxx:',
+  name: 'Trax:',
   checked: true,
 };
 

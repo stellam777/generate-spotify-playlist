@@ -4,11 +4,15 @@ import SelectedSearch from './SelectedSearch';
 import Playlist from './Playlist';
 import AddToSpotifyForm from './AddToSpotifyForm';
 import SeedsForm from './SeedsForm';
-import initialSeeds from './seeds'
+import initialSeeds from './seeds';
+import UserInfo from './UserInfo';
+import Player from './Player'
+//import Logo from './traxlogo.png';
 
 const PlaylistGenerator = (props) => {
   const auth = props.auth;
   const token = auth.token;
+  const deviceId = props.deviceId;
 
   //the value of the input string, what initiates our search
   const [searchString, setSearchString] = useState('');
@@ -112,6 +116,7 @@ const PlaylistGenerator = (props) => {
         Authorization: `Bearer ${token}`,
       },
     });
+
     if (mounted) {
       if (data) {
         setUsername(data.display_name);
@@ -126,8 +131,14 @@ const PlaylistGenerator = (props) => {
   }, [selectedSearchStrings, seedValues]);
 
   return (
-    <div className='container-fluid'>
-      <h1>Hi, {username}</h1>
+    <div className='container mt-4'>
+      <div className="d-flex justify-content-between">
+        {/* <img src={Logo}/> */}
+        <a href={'/auth/logout'}><button className="btn-info">Log Out</button></a>
+      </div>
+      <div className="mt-4">
+        <h1 className="mt-4">Discover new music</h1>
+      </div>
       <div>
         <div className='form-group'>
           <label>
@@ -142,46 +153,47 @@ const PlaylistGenerator = (props) => {
             onChange={changeHandler}
             value={searchString}
           />
-          <div className='row'>
-            {isSelected && (
-              <SelectedSearch
+        </div>
+        <ul className='list-group dropd'>
+          {searchString &&
+            autoCompleteText.map((artist) => (
+              <li
+                className='list-group-item'
+                key={artist.id}
+                onClick={() => selectArtist(artist)}
+              >
+                {artist.name}
+              </li>
+            ))}
+        </ul>
+        <UserInfo auth={auth} />
+        <div className='row'>
+          {isSelected && (
+            <SelectedSearch
+              recResults={recResults}
+              selectedSearchStrings={selectedSearchStrings}
+              setSelectedSearchStrings={setSelectedSearchStrings}
+              seedValues={seedValues}
+              setSeedValues={setSeedValues}
+            />
+          )}
+          {selectedSearchStrings.length ? (
+            <Playlist recResults={recResults} auth={auth} deviceId={deviceId} />
+          ) : (
+            ''
+          )}
+          {selectedSearchStrings.length ? (
+            <div className="col-lg-3">
+              <AddToSpotifyForm
+                auth={auth}
+                userId={userId}
                 recResults={recResults}
-                selectedSearchStrings={selectedSearchStrings}
-                setSelectedSearchStrings={setSelectedSearchStrings}
-                seedValues={seedValues}
-                setSeedValues={setSeedValues}
               />
-            )}
-            <ul className='list-group'>
-              {searchString &&
-                autoCompleteText.map((artist) => (
-                  <li
-                    className='list-group-item'
-                    key={artist.id}
-                    onClick={() => selectArtist(artist)}
-                  >
-                    {artist.name}
-                  </li>
-                ))}
-            </ul>
-            {selectedSearchStrings.length ? (
-              <Playlist recResults={recResults} />
-            ) : (
-              ''
-            )}
-            {selectedSearchStrings.length ? (
-              <div className="col-lg-3">
-                <AddToSpotifyForm
-                  auth={auth}
-                  userId={userId}
-                  recResults={recResults}
-                />
-                <SeedsForm seedValues={seedValues} setSeedValues={setSeedValues}/>
-              </div>
-            ) : (
-              ''
-            )}
-          </div>
+              <SeedsForm seedValues={seedValues} setSeedValues={setSeedValues}/>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

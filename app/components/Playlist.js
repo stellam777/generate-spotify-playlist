@@ -1,8 +1,9 @@
 import React from 'react';
 import SingleTrack from './SingleTrack';
 
-const Playlist = ({ recResults }) => {
-//console.log("HI FROM PLAYLIST", selectedSearchStrings)
+
+const Playlist = ({ recResults, auth, deviceId }) => {
+
   return (
     <div className="col-lg-9">
       <div className="row m-4">
@@ -21,6 +22,9 @@ const Playlist = ({ recResults }) => {
             duration={track.duration_ms}
             artistName={track.artists[0].name}
             imageUrl={track.album.images[2].url}
+            uri={track.uri}
+            auth={auth}
+            deviceId={deviceId}
           />
         )
       })}

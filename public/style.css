@@ -1,3 +1,25 @@
+html {
+  background-color: #3E0380;
+}
+
+body {
+  color: white;
+}
+
+#app {
+   background-color: #3E0380;
+   color: white;
+}
+
+ul.list-group.dropd {
+  background-color: #7900FF;
+}
+
+li.list-group-item {
+  background-color: #7900FF;
+}
+
+
 ul {
   list-style-type: none;
 }
@@ -13,3 +35,11 @@ li:hover {
 .iTag:hover {
   cursor: pointer;
 }
+
+.artist-img {
+  object-fit: cover;
+  width: 250px;
+  height: 330px;
+}
+
+

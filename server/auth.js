@@ -10,18 +10,11 @@ const axios = require('axios');
 
 //Step 1: request authorization. This get request is requesting authorization for our app, and prompts the user to login via Spotify's auth flow
 router.get('/login', (req, res) => {
-  const test = querystring.stringify({
-      response_type: 'code',
-      client_id: process.env.SPOTIFY_CLIENT_ID,
-      scope: 'user-read-private user-read-public',
-      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-    })
-    console.log("TEST HELLO", test)
   res.redirect(
     `https://accounts.spotify.com/authorize?${querystring.stringify({
       response_type: 'code',
       client_id: process.env.SPOTIFY_CLIENT_ID,
-      scope: 'playlist-modify-public playlist-modify-private',
+      scope: 'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private user-top-read user-modify-playback-state user-read-currently-playing user-read-playback-state',
       redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     })}`
   );
@@ -75,7 +68,7 @@ router.get('/current-session', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-  req.session = null;
+  req.session.destroy();
   res.redirect(`/`);
 });
 
