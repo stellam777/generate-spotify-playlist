@@ -14,7 +14,8 @@ router.get('/login', (req, res) => {
     `https://accounts.spotify.com/authorize?${querystring.stringify({
       response_type: 'code',
       client_id: process.env.SPOTIFY_CLIENT_ID,
-      scope: 'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private user-top-read user-modify-playback-state user-read-currently-playing user-read-playback-state',
+      show_dialog: true,
+      scope: 'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private user-top-read user-modify-playback-state user-read-currently-playing user-read-playback-state streaming',
       redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     })}`
   );

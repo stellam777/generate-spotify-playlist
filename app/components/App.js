@@ -12,6 +12,7 @@ function App() {
   const [scriptLoaded, setScriptLoaded] = useState(null)
   const [scriptError, setScriptError] = useState(null)
   const [deviceId, setDeviceId] = useState(null)
+  const [playerState, setPlayerState] = useState(null);
 
   useEffect(async () => {
     const { data } = await axios.get('/auth/current-session');
@@ -34,6 +35,7 @@ function App() {
     });
     console.log(player);
 
+
     // Error handling
     player.addListener('initialization_error', ({ message }) => { console.error(message); });
     player.addListener('authentication_error', ({ message }) => { console.error(message); });
@@ -41,7 +43,8 @@ function App() {
     player.addListener('playback_error', ({ message }) => { console.error(message); });
 
     // Playback status updates
-    player.addListener('player_state_changed', state => { console.log(state); });
+    player.addListener('player_state_changed', state => { console.log(state); setPlayerState(state.paused) });
+
 
     // Ready
     player.addListener('ready', ({ device_id }) => {
@@ -96,7 +99,7 @@ function App() {
             onLoad={handleScriptLoad}
           />
         </header>
-      <PlaylistGenerator deviceId={deviceId} auth={auth}/>
+      <PlaylistGenerator deviceId={deviceId} auth={auth} playerState={playerState}/>
       </div>
     )
   }

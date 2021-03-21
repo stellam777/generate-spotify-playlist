@@ -53,12 +53,13 @@ class AddToSpotifyForm extends React.Component {
   render() {
     //console.log('PROPS', this.props);
     return (
-      <div>
+      <div className="add-playlist-form mt-4">
         <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
             <label htmlFor='name'>Playlist Name</label>
             <input
               type='text'
+              autoComplete='off'
               name='name'
               onChange={(e) =>
                 this.setState({ ...this.state, name: e.target.value })
@@ -69,21 +70,23 @@ class AddToSpotifyForm extends React.Component {
               aria-describedby='playlist-name'
             />
           </div>
-          <div className='form-group'>
-            <label>
-              <span>Public</span>
-              <Switch
-                name='checked'
-                onChange={(e) =>
-                  this.setState({ checked: !this.state.checked })
-                }
-                checked={this.state.checked}
-              />
-            </label>
+          <div className='form-check'>
+            <input
+              className="form-check-input checkbox-color"
+              id="flexCheckChecked"
+              type="checkbox"
+              name="checked"
+              onChange={(e) =>
+                this.setState({ checked: !this.state.checked })
+              }
+              checked={this.state.checked}/>
+            <label className="form-check-label" htmlFor="flexCheckChecked">Public</label>
           </div>
-          <button type='submit' className='btn btn-primary'>
-            Save Playlist to Spotify
-          </button>
+          <div className="row justify-content-center">
+            <button type='submit' className='btn custom-btn'>
+              Save Playlist to Spotify
+            </button>
+          </div>
         </form>
       </div>
     );

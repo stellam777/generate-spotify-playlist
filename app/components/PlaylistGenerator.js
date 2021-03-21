@@ -7,12 +7,13 @@ import SeedsForm from './SeedsForm';
 import initialSeeds from './seeds';
 import UserInfo from './UserInfo';
 import Player from './Player'
-//import Logo from './traxlogo.png';
+import logo from './traxlogo.png';
 
 const PlaylistGenerator = (props) => {
   const auth = props.auth;
   const token = auth.token;
   const deviceId = props.deviceId;
+  const playerState = props.playerState;
 
   //the value of the input string, what initiates our search
   const [searchString, setSearchString] = useState('');
@@ -133,17 +134,15 @@ const PlaylistGenerator = (props) => {
   return (
     <div className='container mt-4'>
       <div className="d-flex justify-content-between">
-        {/* <img src={Logo}/> */}
-        <a href={'/auth/logout'}><button className="btn-info">Log Out</button></a>
+        <img src={logo}/>
+        {/* <p>Hi, {username}</p> */}
+        <a href={'/auth/logout'}><button className="btn custom-btn mt-4">Log Out</button></a>
       </div>
       <div className="mt-4">
         <h1 className="mt-4">Discover new music</h1>
       </div>
       <div>
         <div className='form-group'>
-          <label>
-            Enter an artist below to generate a new recommended playlist
-          </label>
           <input
             placeholder="Search by Artist"
             autoComplete='off'
@@ -166,7 +165,7 @@ const PlaylistGenerator = (props) => {
               </li>
             ))}
         </ul>
-        <UserInfo auth={auth} />
+        <UserInfo username={username} auth={auth} />
         <div className='row'>
           {isSelected && (
             <SelectedSearch
@@ -178,7 +177,7 @@ const PlaylistGenerator = (props) => {
             />
           )}
           {selectedSearchStrings.length ? (
-            <Playlist recResults={recResults} auth={auth} deviceId={deviceId} />
+            <Playlist recResults={recResults} auth={auth} deviceId={deviceId} playerState={playerState}/>
           ) : (
             ''
           )}

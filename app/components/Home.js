@@ -6,7 +6,7 @@ const Home = (props) => {
     <div className="container">
       <h1>Welcome to Spotify Playlist Generator</h1>
       <h2>Click the button below to login with Spotify</h2>
-      <a href={'/auth/login'}><button className="btn-info" type='click'>Login Here</button></a>
+      <a href={'/auth/login'}><button className="btn custom-btn" type='click'>Login Here</button></a>
     </div>
   )
 }
