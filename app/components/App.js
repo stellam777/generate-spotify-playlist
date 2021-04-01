@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import axios from 'axios';
-import Script from 'react-load-script'
-
+import Script from 'react-load-script';
 import Home from './Home';
 import PlaylistGenerator from './PlaylistGenerator';
 
 function App() {
   const [auth, setAuth] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-  const [scriptLoaded, setScriptLoaded] = useState(null)
-  const [scriptError, setScriptError] = useState(null)
-  const [deviceId, setDeviceId] = useState(null)
+  const [scriptLoaded, setScriptLoaded] = useState(null);
+  const [scriptError, setScriptError] = useState(null);
+  const [deviceId, setDeviceId] = useState(null);
   const [playerState, setPlayerState] = useState(null);
 
   useEffect(async () => {
@@ -22,34 +21,45 @@ function App() {
   useEffect(async () => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       handleLoadSuccess();
-    }
-  },[auth]);
+    };
+  }, [auth]);
 
   const handleLoadSuccess = () => {
     setScriptLoaded(true);
-    console.log("Script loaded");
+    console.log('Script loaded');
     const token = auth.token;
     const player = new window.Spotify.Player({
       name: 'Web Playback SDK Quick Start Player',
-      getOAuthToken: cb => { cb(token); }
+      getOAuthToken: (cb) => {
+        cb(token);
+      },
     });
     console.log(player);
 
-
     // Error handling
-    player.addListener('initialization_error', ({ message }) => { console.error(message); });
-    player.addListener('authentication_error', ({ message }) => { console.error(message); });
-    player.addListener('account_error', ({ message }) => { console.error(message); });
-    player.addListener('playback_error', ({ message }) => { console.error(message); });
+    player.addListener('initialization_error', ({ message }) => {
+      console.error(message);
+    });
+    player.addListener('authentication_error', ({ message }) => {
+      console.error(message);
+    });
+    player.addListener('account_error', ({ message }) => {
+      console.error(message);
+    });
+    player.addListener('playback_error', ({ message }) => {
+      console.error(message);
+    });
 
     // Playback status updates
-    player.addListener('player_state_changed', state => { console.log(state); setPlayerState(state.paused) });
-
+    player.addListener('player_state_changed', (state) => {
+      console.log(state);
+      setPlayerState(state.paused);
+    });
 
     // Ready
     player.addListener('ready', ({ device_id }) => {
       console.log('Ready with Device ID', device_id);
-    setDeviceId(device_id);
+      setDeviceId(device_id);
     });
 
     // Not Ready
@@ -59,50 +69,62 @@ function App() {
 
     // Connect to the player!
     player.connect();
-  }
+  };
 
   const cb = (token) => {
-    return(token);
-  }
+    return token;
+  };
 
   const handleScriptCreate = () => {
     setScriptLoaded(false);
-    console.log("Script created");
-  }
+    console.log('Script created');
+  };
 
   const handleScriptError = () => {
     setScriptError(true);
-    console.log("Script error");
-  }
+    console.log('Script error');
+  };
 
   const handleScriptLoad = () => {
     setScriptLoaded(true);
-    console.log("Script loaded");
-  }
+    console.log('Script loaded');
+  };
 
-  if(!auth || auth === false) {
+  //when you have new token in place then can get rid of this!
+  if (!auth || auth === false) {
     return (
-      <div className="container mt-4">
+      <div className='container mt-4'>
         <Route to='/' component={Home} />
       </div>
-    )
+    );
   }
 
-  if(auth) {
-    return (
-      <div>
-        <header>
-          <Script
-            url="https://sdk.scdn.co/spotify-player.js"
-            onCreate={handleScriptCreate}
-            onError={handleScriptError}
-            onLoad={handleScriptLoad}
+if(auth) {
+  return (
+    // <div>
+    //   {auth ? (
+        <div>
+          <header>
+            <Script
+              url='https://sdk.scdn.co/spotify-player.js'
+              onCreate={handleScriptCreate}
+              onError={handleScriptError}
+              onLoad={handleScriptLoad}
+            />
+          </header>
+          <PlaylistGenerator
+            deviceId={deviceId}
+            auth={auth}
+            playerState={playerState}
           />
-        </header>
-      <PlaylistGenerator deviceId={deviceId} auth={auth} playerState={playerState}/>
-      </div>
-    )
-  }
+        </div>)
+    //   ) : (
+    //     <div>
+    //       <PlaylistGenerator />
+    //     </div>
+    //   )}
+    // </div>
+ }
 }
 
 export default App;

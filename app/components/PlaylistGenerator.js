@@ -6,7 +6,7 @@ import AddToSpotifyForm from './AddToSpotifyForm';
 import SeedsForm from './SeedsForm';
 import initialSeeds from './seeds';
 import UserInfo from './UserInfo';
-import Player from './Player'
+import Player from './Player';
 import logo from './traxlogo.png';
 
 const PlaylistGenerator = (props) => {
@@ -32,7 +32,7 @@ const PlaylistGenerator = (props) => {
   const [recResults, setRecResults] = useState([]);
 
   //Seeds values obj
-  const [seedValues, setSeedValues] = useState(initialSeeds)
+  const [seedValues, setSeedValues] = useState(initialSeeds);
 
   //Logged in user info, will probs move to own component
   const [username, setUsername] = useState('');
@@ -91,11 +91,13 @@ const PlaylistGenerator = (props) => {
 
       let seedsArr = [];
       Object.keys(seedValues).forEach((seed) => {
-        if(seedValues[seed].enabled) {
-          seedsArr.push(`min_${seed}=${seedValues[seed].value[0]}&max_${seed}=${seedValues[seed].value[1]}`)
+        if (seedValues[seed].enabled) {
+          seedsArr.push(
+            `min_${seed}=${seedValues[seed].value[0]}&max_${seed}=${seedValues[seed].value[1]}`
+          );
         }
-      })
-      let seedString = seedsArr.join("&");
+      });
+      let seedString = seedsArr.join('&');
 
       const { data } = await axios.get(`${url}?limit=30&${requestString}`, {
         headers: {
@@ -107,8 +109,9 @@ const PlaylistGenerator = (props) => {
       }
     }
     return () => (mounted = false);
-  }
+  };
 
+  //if user auth then run this useEffect!
   useEffect(async () => {
     //get user
     let mounted = true;
@@ -133,18 +136,25 @@ const PlaylistGenerator = (props) => {
 
   return (
     <div className='container mt-4'>
-      <div className="d-flex justify-content-between">
-        <img src={logo}/>
+      <div className='d-flex justify-content-between'>
+        <img src={logo} />
         {/* <p>Hi, {username}</p> */}
-        <a href={'/auth/logout'}><button className="btn custom-btn mt-4">Log Out</button></a>
+        <a href={'/auth/logout'}>
+          <button className='btn custom-btn mt-4'>Log Out</button>
+        </a>
+        <a href={'/auth/login'}>
+          <button className='btn custom-btn' type='click'>
+            Login with Spotify
+          </button>
+        </a>
       </div>
-      <div className="mt-4">
-        <h1 className="mt-4">Discover new music</h1>
+      <div className='mt-4'>
+        <h1 className='mt-4'>Discover new music</h1>
       </div>
       <div>
         <div className='form-group'>
           <input
-            placeholder="Search by Artist"
+            placeholder='Search by Artist'
             autoComplete='off'
             type='text'
             name='search'
@@ -177,18 +187,26 @@ const PlaylistGenerator = (props) => {
             />
           )}
           {selectedSearchStrings.length ? (
-            <Playlist recResults={recResults} auth={auth} deviceId={deviceId} playerState={playerState}/>
+            <Playlist
+              recResults={recResults}
+              auth={auth}
+              deviceId={deviceId}
+              playerState={playerState}
+            />
           ) : (
             ''
           )}
           {selectedSearchStrings.length ? (
-            <div className="col-lg-3">
+            <div className='col-lg-3'>
               <AddToSpotifyForm
                 auth={auth}
                 userId={userId}
                 recResults={recResults}
               />
-              <SeedsForm seedValues={seedValues} setSeedValues={setSeedValues}/>
+              <SeedsForm
+                seedValues={seedValues}
+                setSeedValues={setSeedValues}
+              />
             </div>
           ) : (
             ''
