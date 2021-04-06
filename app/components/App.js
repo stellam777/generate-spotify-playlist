@@ -4,6 +4,7 @@ import axios from 'axios';
 import Script from 'react-load-script';
 import Home from './Home';
 import PlaylistGenerator from './PlaylistGenerator';
+//TESTING
 
 function App() {
   const [auth, setAuth] = useState(null);
@@ -99,32 +100,33 @@ function App() {
     );
   }
 
-if(auth) {
-  return (
-    // <div>
-    //   {auth ? (
-        <div>
-          <header>
-            <Script
-              url='https://sdk.scdn.co/spotify-player.js'
-              onCreate={handleScriptCreate}
-              onError={handleScriptError}
-              onLoad={handleScriptLoad}
-            />
-          </header>
-          <PlaylistGenerator
-            deviceId={deviceId}
-            auth={auth}
-            playerState={playerState}
+  if (auth) {
+    return (
+      // <div>
+      //   {auth ? (
+      <div>
+        <header>
+          <Script
+            url='https://sdk.scdn.co/spotify-player.js'
+            onCreate={handleScriptCreate}
+            onError={handleScriptError}
+            onLoad={handleScriptLoad}
           />
-        </div>)
+        </header>
+        <PlaylistGenerator
+          deviceId={deviceId}
+          auth={auth}
+          playerState={playerState}
+        />
+      </div>
+    );
     //   ) : (
     //     <div>
     //       <PlaylistGenerator />
     //     </div>
     //   )}
     // </div>
- }
+  }
 }
 
 export default App;
