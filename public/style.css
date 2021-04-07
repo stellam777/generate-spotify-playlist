@@ -166,6 +166,13 @@ div.form-check {
   margin-bottom: 0px;
 }
 
+.dropdown-menu.show{
+  background-color: #7900ff;
+}
+
+a.dropdown-item {
+  color: white;
+}
 
 
 

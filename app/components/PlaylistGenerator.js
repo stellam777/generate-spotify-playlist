@@ -38,6 +38,8 @@ const PlaylistGenerator = (props) => {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
 
+  const [songCount, setSongCount] = useState(25);
+
   const searchSpotify = async () => {
     const url = 'https://api.spotify.com/v1/search';
     const searchQuery = encodeURIComponent(searchString);
@@ -98,8 +100,8 @@ const PlaylistGenerator = (props) => {
         }
       });
       let seedString = seedsArr.join('&');
-
-      const { data } = await axios.get(`${url}?limit=30&${requestString}`, {
+      let limit = `limit=${songCount}`
+      const { data } = await axios.get(`${url}?${limit}&${requestString}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -132,13 +134,12 @@ const PlaylistGenerator = (props) => {
 
   useEffect(async () => {
     getRecs();
-  }, [selectedSearchStrings, seedValues]);
+  }, [selectedSearchStrings, seedValues, songCount]);
 
   return (
     <div className='container mt-4'>
       <div className='d-flex justify-content-between'>
         <img src={logo} />
-        {/* <p>Hi, {username}</p> */}
         <a href={'/auth/logout'}>
           <button className='btn custom-btn mt-4'>Log Out</button>
         </a>
@@ -192,6 +193,8 @@ const PlaylistGenerator = (props) => {
               auth={auth}
               deviceId={deviceId}
               playerState={playerState}
+              setSongCount={setSongCount}
+              songCount={songCount}
             />
           ) : (
             ''
