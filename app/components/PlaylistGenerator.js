@@ -151,8 +151,8 @@ const PlaylistGenerator = (props) => {
       <div className='mt-4'>
         <h1 className='mt-4'>Discover new music</h1>
       </div>
-      <div>
-        <div className='form-group'>
+      <div className="functional-container">
+        <div className='form-group mb-0'>
           <input
             placeholder='Search by Artist'
             autoComplete='off'

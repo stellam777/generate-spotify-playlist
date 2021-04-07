@@ -33,8 +33,16 @@ h4 {
   color: white;
 }
 
+.functional-container {
+  position: relative;
+  z-index: 0;
+}
+
 ul.list-group.dropd {
   background-color: #7900ff;
+  position: absolute;
+  z-index: 1;
+  width: 100%;;
 }
 
 li.list-group-item {
