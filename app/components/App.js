@@ -3,8 +3,8 @@ import { Link, Route } from 'react-router-dom';
 import axios from 'axios';
 import Script from 'react-load-script';
 import Home from './Home';
+import querystring from 'query-string';
 import PlaylistGenerator from './PlaylistGenerator';
-//TESTING
 
 function App() {
   const [auth, setAuth] = useState(null);
@@ -13,6 +13,7 @@ function App() {
   const [scriptError, setScriptError] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [playerState, setPlayerState] = useState(null);
+  const [clientToken, setClientToken] = useState(null);
 
   useEffect(async () => {
     const { data } = await axios.get('/auth/current-session');
@@ -24,6 +25,30 @@ function App() {
       handleLoadSuccess();
     };
   }, [auth]);
+
+  useEffect(async () => {
+    const { data } = await axios.get('/current-session');
+    setClientToken(data.token);
+  });
+  // useEffect(async () => {
+  //   const grant_type = 'client_credentials';
+  //   const clientId = process.env.SPOTIFY_CLIENT_ID;
+  //   const secret = process.env.SPOTIFY_CLIENT_SECRET;
+  //   const basicHeader = Buffer.from(`${clientId}:${secret}`).toString('base64');
+
+  //   const { data } = await axios.post(
+  //     'https://accounts.spotify.com/api/token',
+  //     querystring.stringify({
+  //       grant_type,
+  //     }),
+  //     {
+  //       headers: {
+  //         Authorization: `Basic ${basicHeader}`,
+  //       },
+  //     }
+  //   );
+  //   console.log('DATA TEST', data);
+  // });
 
   const handleLoadSuccess = () => {
     setScriptLoaded(true);

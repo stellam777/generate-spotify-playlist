@@ -9,7 +9,7 @@ const { User, db } = require('./server/db');
 const dotenv = require('dotenv');
 
 //Import env file
-dotenv.config({path: path.resolve(__dirname, '.env')});
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 //Logging middleware
 app.use(morgan('dev'));
@@ -19,11 +19,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Cookie stuffs
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -31,20 +33,21 @@ app.use(passport.session());
 passport.serializeUser((user, done) => {
   try {
     done(null, user.id);
-  } catch(err) {
+  } catch (err) {
     done(err);
   }
-})
+});
 
 passport.deserializeUser((id, done) => {
   User.findById(id)
-  .then(user => done(null, user))
-  .catch(done);
-})
+    .then((user) => done(null, user))
+    .catch(done);
+});
 
 //Serve static files
 app.use(express.static(path.join(__dirname, './public')));
 
+app.use('/', require('./server/noauth'));
 app.use('/auth', require('./server/auth'));
 
 app.get('*', function (req, res) {
@@ -60,9 +63,8 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3000;
 
-db.sync()
-  .then(function() {
+db.sync().then(function () {
   app.listen(port, function () {
     console.log(`Serving up sounds on port ${port}`);
-  })
+  });
 });
