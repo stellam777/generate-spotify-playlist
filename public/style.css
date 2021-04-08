@@ -69,13 +69,9 @@ li:hover {
   object-fit: cover;
   width: 270px;
   height: 330px;
-  margin: 5px;
+  margin: 0px 5px 5px 5px;
   border-radius: 4px;
 }
-
-/* ul.list-group.dropd {
-  z-index: 99;
-} */
 
 .btn.custom-btn {
   background-color: #00c4cc;
@@ -190,22 +186,46 @@ a.dropdown-item {
   padding-right: 3px;
 }
 
-.artist-img-container {
-  margin: 0;
-  padding: 0;
-}
-
 ul.d-flex.justify-content-around {
   padding: 0;
   margin: 0;
 }
 
+.artist-img-container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.artist-name {
+  position: absolute;
+  text-align: left;
+  width: 100%;
+  height: 0%;
+  margin: auto;
+  top: 275px;
+  left: 10px;
+  bottom: 0;
+  right: 0;
+  z-index: 51;
+  font-weight: bold;
+}
 
 
 @media only screen and (min-width: 320px) and (max-width: 479px) {
   .artist-img {
     width: 60px;
     height: 45px;
+  }
+
+  .artist-name {
+    font-size: 8px;
+    top: 50px;
+    left: 0;
+  }
+
+  .user-info-greeting p {
+    font-size: 10px;
   }
 }
 
@@ -214,12 +234,22 @@ ul.d-flex.justify-content-around {
     width: 120px;
     height: 180px;
   }
+
+  .artist-name {
+    font-size: 10px;
+    top: 140px;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .artist-img {
     width: 165px;
     height: 230px;
+  }
+
+  .artist-name {
+    font-size: 12px;
+    top: 190px;
   }
 }
 
@@ -228,12 +258,30 @@ ul.d-flex.justify-content-around {
     width: 225px;
     height: 300px;
   }
+
+  .artist-name {
+    top: 255px;
+  }
 }
 
 @media only screen and (min-width: 1200px) {
   .artist-img {
     width: 270px;
     height: 330px;
+  }
+
+  .artist-name {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    height: 0%;
+    margin: auto;
+    top: 275px;
+    left: 10px;
+    bottom: 0;
+    right: 0;
+    z-index: 51;
+    font-weight: bold;
   }
 }
 

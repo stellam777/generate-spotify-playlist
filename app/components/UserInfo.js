@@ -32,8 +32,8 @@ const UserInfo = ({ auth, username }) => {
           topArtists.map((artist) => {
             return (
               <div key={artist.id} className="artist-img-container">
-                <img className='artist-img' src={artist.images[1].url} />
-                <li>{artist.name}</li>
+                <li className="artist-name">{artist.name}</li>
+                <div className="overlay"><img className='artist-img' src={artist.images[1].url}/></div>
               </div>
             );
           })}
