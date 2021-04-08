@@ -47,7 +47,7 @@ passport.deserializeUser((id, done) => {
 //Serve static files
 app.use(express.static(path.join(__dirname, './public')));
 
-app.use('/', require('./server/noauth'));
+//app.use('/', require('./server/noauth'));
 app.use('/auth', require('./server/auth'));
 
 app.get('*', function (req, res) {

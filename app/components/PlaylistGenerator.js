@@ -8,10 +8,12 @@ import initialSeeds from './seeds';
 import UserInfo from './UserInfo';
 import Player from './Player';
 import logo from './traxlogo.png';
+import querystring from 'query-string';
+import Footer from './Footer';
 
 const PlaylistGenerator = (props) => {
-  const auth = props.auth;
-  const token = auth.token;
+  const auth = props.auth || '';
+  const token = auth.token || '';
   const deviceId = props.deviceId;
   const playerState = props.playerState;
 
@@ -40,13 +42,15 @@ const PlaylistGenerator = (props) => {
 
   const [songCount, setSongCount] = useState(25);
 
+  const [clientToken, setClientToken] = useState(null);
+
   const searchSpotify = async () => {
     const url = 'https://api.spotify.com/v1/search';
     const searchQuery = encodeURIComponent(searchString);
     const typeQuery = `type=artist`;
     const { data } = await axios.get(`${url}?q=${searchQuery}&${typeQuery}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${clientToken}`,
       },
     });
     if (data && data.artists) {
@@ -100,15 +104,16 @@ const PlaylistGenerator = (props) => {
         }
       });
       let seedString = seedsArr.join('&');
-      let limit = `limit=${songCount}`
+      let limit = `limit=${songCount}`;
       const { data } = await axios.get(`${url}?${limit}&${requestString}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${clientToken}`,
         },
       });
       if (mounted) {
         setRecResults(data.tracks);
       }
+
     }
     return () => (mounted = false);
   };
@@ -116,20 +121,43 @@ const PlaylistGenerator = (props) => {
   //if user auth then run this useEffect!
   useEffect(async () => {
     //get user
-    let mounted = true;
-    const { data } = await axios.get('https://api.spotify.com/v1/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    if(auth) {
+      let mounted = true;
+      const { data } = await axios.get('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (mounted) {
-      if (data) {
-        setUsername(data.display_name);
-        setUserId(data.id);
+      if (mounted) {
+        if (data) {
+          setUsername(data.display_name);
+          setUserId(data.id);
+        }
       }
+      return () => (mounted = false);
     }
-    return () => (mounted = false);
+  }, []);
+
+  useEffect(async () => {
+    const grant_type = 'client_credentials';
+    const clientId = '2182cda3beca4541ba6f24115112a637';
+    const secret = '2a858d65b0f040739c77884ceaaf9fd8';
+    const basicHeader = 'MjE4MmNkYTNiZWNhNDU0MWJhNmYyNDExNTExMmE2Mzc6MmE4NThkNjViMGYwNDA3MzljNzc4ODRjZWFhZjlmZDg=';
+
+    const { data } = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      querystring.stringify({
+        grant_type,
+      }),
+      {
+        headers: {
+          Authorization: `Basic ${basicHeader}`,
+        },
+      }
+    );
+    setClientToken(data.access_token);
+    // console.log('CLIENT TOKEN', data);
   }, []);
 
   useEffect(async () => {
@@ -140,19 +168,19 @@ const PlaylistGenerator = (props) => {
     <div className='container mt-4'>
       <div className='d-flex justify-content-between'>
         <img src={logo} />
-        <a href={'/auth/logout'}>
+        {auth ? (<a href={'/auth/logout'}>
           <button className='btn custom-btn mt-4'>Log Out</button>
-        </a>
-        <a href={'/auth/login'}>
-          <button className='btn custom-btn' type='click'>
+        </a>) :
+        (<a href={'/auth/login'}>
+          <button className='btn custom-btn mt-4' type='click'>
             Login with Spotify
           </button>
-        </a>
+        </a>)}
       </div>
       <div className='mt-4'>
         <h1 className='mt-4'>Discover new music</h1>
       </div>
-      <div className="functional-container">
+      <div className='functional-container'>
         <div className='form-group mb-0'>
           <input
             placeholder='Search by Artist'
@@ -176,7 +204,7 @@ const PlaylistGenerator = (props) => {
               </li>
             ))}
         </ul>
-        <UserInfo username={username} auth={auth} />
+        {auth && <UserInfo username={username} auth={auth} />}
         <div className='row'>
           {isSelected && (
             <SelectedSearch
@@ -205,6 +233,7 @@ const PlaylistGenerator = (props) => {
                 auth={auth}
                 userId={userId}
                 recResults={recResults}
+                auth={auth}
               />
               <SeedsForm
                 seedValues={seedValues}
@@ -216,6 +245,7 @@ const PlaylistGenerator = (props) => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

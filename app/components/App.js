@@ -13,7 +13,7 @@ function App() {
   const [scriptError, setScriptError] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [playerState, setPlayerState] = useState(null);
-  const [clientToken, setClientToken] = useState(null);
+  //const [clientToken, setClientToken] = useState(null);
 
   useEffect(async () => {
     const { data } = await axios.get('/auth/current-session');
@@ -26,28 +26,10 @@ function App() {
     };
   }, [auth]);
 
-  useEffect(async () => {
-    const { data } = await axios.get('/current-session');
-    setClientToken(data.token);
-  });
   // useEffect(async () => {
-  //   const grant_type = 'client_credentials';
-  //   const clientId = process.env.SPOTIFY_CLIENT_ID;
-  //   const secret = process.env.SPOTIFY_CLIENT_SECRET;
-  //   const basicHeader = Buffer.from(`${clientId}:${secret}`).toString('base64');
-
-  //   const { data } = await axios.post(
-  //     'https://accounts.spotify.com/api/token',
-  //     querystring.stringify({
-  //       grant_type,
-  //     }),
-  //     {
-  //       headers: {
-  //         Authorization: `Basic ${basicHeader}`,
-  //       },
-  //     }
-  //   );
-  //   console.log('DATA TEST', data);
+  //   const { data } = await axios.get('/current-session');
+  //   setClientToken(data.token);
+  //   console.log('CLIENT TOKEN', data.token);
   // });
 
   const handleLoadSuccess = () => {
@@ -117,18 +99,16 @@ function App() {
   };
 
   //when you have new token in place then can get rid of this!
-  if (!auth || auth === false) {
-    return (
-      <div className='container mt-4'>
-        <Route to='/' component={Home} />
-      </div>
-    );
-  }
+  // if (!auth || auth === false) {
+  //   return (
+  //     <div className='container mt-4'>
+  //       <Route to='/' component={Home} />
+  //     </div>
+  //   );
+  // }
 
   if (auth) {
     return (
-      // <div>
-      //   {auth ? (
       <div>
         <header>
           <Script
@@ -145,12 +125,14 @@ function App() {
         />
       </div>
     );
-    //   ) : (
-    //     <div>
-    //       <PlaylistGenerator />
-    //     </div>
-    //   )}
-    // </div>
+  }
+
+  if (!auth || auth === false) {
+    return (
+      <div>
+        <PlaylistGenerator />
+      </div>
+    );
   }
 }
 

@@ -54,7 +54,7 @@ class AddToSpotifyForm extends React.Component {
     //console.log('PROPS', this.props);
     return (
       <div className="add-playlist-form mt-4">
-        <form onSubmit={this.handleSubmit}>
+        {this.props.auth && <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
             <label htmlFor='name'>Playlist Name</label>
             <input
@@ -83,11 +83,13 @@ class AddToSpotifyForm extends React.Component {
             <label className="custom-control-label" htmlFor="customCheck1">Public</label>
           </div>
           <div className="row justify-content-center">
-            <button type='submit' className='btn custom-btn'>
-              Save Playlist to Spotify
-            </button>
+            <button type='submit' className='btn custom-btn'>Save Playlist to Spotify</button>
           </div>
-        </form>
+        </form>}
+        {!this.props.auth && <div><h6 className="text-center">Sign in with Spotify to save playlists to your account</h6><div className="row justify-content-center mt-3">
+          <a href={'/auth/login'}><button type='submit' className='btn custom-btn'>Login to Save</button></a>
+        </div>
+        </div>}
       </div>
     );
   }
