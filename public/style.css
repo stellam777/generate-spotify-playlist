@@ -67,8 +67,10 @@ li:hover {
 
 .artist-img {
   object-fit: cover;
-  width: 250px;
+  width: 270px;
   height: 330px;
+  margin: 5px;
+  border-radius: 4px;
 }
 
 /* ul.list-group.dropd {
@@ -174,7 +176,64 @@ a.dropdown-item {
   color: white;
 }
 
+.user-info-greeting {
+  background-color: #7900ff;
+  color: white;
+  border-radius: 2px;
+  padding: 5px;
+  width: 100%;
+}
+
+.user-info-greeting p {
+  margin-bottom: 0;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.artist-img-container {
+  margin: 0;
+  padding: 0;
+}
+
+ul.d-flex.justify-content-around {
+  padding: 0;
+  margin: 0;
+}
 
 
 
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+  .artist-img {
+    width: 60px;
+    height: 45px;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px){
+  .artist-img {
+    width: 120px;
+    height: 180px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .artist-img {
+    width: 165px;
+    height: 230px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .artist-img {
+    width: 225px;
+    height: 300px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .artist-img {
+    width: 270px;
+    height: 330px;
+  }
+}
 
