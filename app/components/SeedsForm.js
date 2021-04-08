@@ -176,7 +176,7 @@ const SeedsForm = ({ seedValues, setSeedValues }) => {
             </div>
           )
         })}
-        <div class="text-center">
+        <div className="text-center">
           <button className='btn btn-sm custom-btn align-center' onClick={resetSeeds}>Reset</button>
         </div>
       </div>

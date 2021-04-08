@@ -11,7 +11,7 @@ body {
 }
 
 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   font-weight: bold;
 }
 
@@ -61,7 +61,14 @@ li:hover {
   cursor: pointer;
 }
 
-.iTag:hover {
+div.itag.row {
+  background-color: #7900ff;
+  border-radius: 3px;
+  margin: 15px;
+  padding: 5px;
+}
+
+div.itag.row:hover {
   cursor: pointer;
 }
 
@@ -111,6 +118,7 @@ input#flexCheckChecked.form-check-input.checkbox-color {
   border-radius: 10px;
 }
 
+
 div.col-lg-10.col-md-10.col-sm-8.track-artist {
   padding-top: 20px;
 }
@@ -125,6 +133,10 @@ div.col-lg-10.col-md-10.col-sm-8.track-artist {
 
 .col-lg-2.col-md-2.col-sm-4.play-img-parent {
   position: relative;
+}
+
+.col-lg-2.col-md-2.col-sm-4.play-img-parent:hover {
+  cursor: pointer;
 }
 
 .track-line {
@@ -187,14 +199,16 @@ a.dropdown-item {
 }
 
 ul.d-flex.justify-content-around {
-  padding: 0;
+  padding: 0px 0 10px 0;
   margin: 0;
+  border-bottom: 1px solid #e43397;
 }
 
 .artist-img-container {
   margin: 0;
   padding: 0;
   position: relative;
+  z-index: 0;
 }
 
 .artist-name {
@@ -207,7 +221,7 @@ ul.d-flex.justify-content-around {
   left: 10px;
   bottom: 0;
   right: 0;
-  z-index: 51;
+  z-index: 1;
   font-weight: bold;
 }
 
