@@ -10,7 +10,7 @@ const Playlist = ({ recResults, auth, deviceId, playerState, setSongCount, songC
         </div>
         <div className='col-6'>
           <div className="dropdown">
-            <button className="btn btn-sm custom-btn dropdown-toggle float-right mt-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button className="btn btn-sm count-btn dropdown-toggle float-right mt-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Track Count: {songCount}
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

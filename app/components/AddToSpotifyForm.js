@@ -70,17 +70,17 @@ class AddToSpotifyForm extends React.Component {
               aria-describedby='playlist-name'
             />
           </div>
-          <div className='form-check'>
+          <div className='custom-control custom-checkbox mb-2'>
             <input
-              className="form-check-input checkbox-color"
-              id="flexCheckChecked"
+              className="custom-control-input"
+              id="customCheck1"
               type="checkbox"
               name="checked"
               onChange={(e) =>
                 this.setState({ checked: !this.state.checked })
               }
               checked={this.state.checked}/>
-            <label className="form-check-label" htmlFor="flexCheckChecked">Public</label>
+            <label className="custom-control-label" htmlFor="customCheck1">Public</label>
           </div>
           <div className="row justify-content-center">
             <button type='submit' className='btn custom-btn'>

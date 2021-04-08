@@ -85,6 +85,23 @@ div.itag.row:hover {
   color: white;
 }
 
+.btn.count-btn {
+  background-color: #7900ff;
+  color: white;
+}
+
+.btn.count-btn:hover {
+  background-color: #7900ff;
+  color: white;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 input.form-control {
   border: 0;
   outline: 0;
@@ -107,8 +124,21 @@ input.form-control:focus {
   border-bottom: 1px solid #e43397;
 }
 
-input#flexCheckChecked.form-check-input.checkbox-color {
-  background-color: yellow;
+/* input[type=checkbox]:after {
+  content: " ";
+  background-color: #D7B1D7;
+  display: inline-block;
+  visibility: visible;
+} */
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #7900ff!important;
+  border-color: #7900ff!important;
+}
+
+.custom-checkbox .custom-control-input:active ~ .custom-control-label::before {
+  background-color: #7900ff;
+  border-color: #7900ff!important;
 }
 
 .album-img {
