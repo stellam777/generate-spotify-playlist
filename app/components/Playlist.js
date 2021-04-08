@@ -4,8 +4,8 @@ import SingleTrack from './SingleTrack';
 const Playlist = ({ recResults, auth, deviceId, playerState, setSongCount, songCount }) => {
   return (
     <div className='col-lg-9'>
-      <div className='row m-4'>
-        <div className='col-6'>
+      <div className='row mt-4 ml-0 mr-4'>
+        <div className='col-6 ml-0'>
           <h2>Your Playlist:</h2>
         </div>
         <div className='col-6'>

@@ -60,7 +60,7 @@ const SingleTrack = ({
 
   return (
     <div
-      className='row m-4 flex-nowrap'
+      className='row mt-4 ml-0 mr-4 flex-nowrap'
       onClick={isPlaying ? pause : (e) => play(uri, e)}
     >
       <div
