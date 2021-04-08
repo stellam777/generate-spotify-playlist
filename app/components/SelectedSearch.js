@@ -1,11 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import initialSeeds from './seeds'
 
-//if search artist is deleted we want the tracklist to re-render to what is currently in the selectedSearchStrings array so need to fire another get request here
-//so basically anytime selectedSearchStrings list is updated, need to fire a re-render
-//pass getRecommendations function through props to SelectedSearch and run it in the removeArtist func
-//Back in PlaylistGen, make getRec... func a stand alone func and call it in useEffect
-
 const seeds = {
   acousticness: {
     min: 0,
@@ -83,9 +78,9 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container">
     <div onClick={removeArtist} className="row">
-      {selectedSearchStrings.map(artist => <div className="iTag row m-1" key={artist.id}><li className="col">{artist.name}<i className="fas fa-times pl-1"></i></li></div>)}
+      {selectedSearchStrings.map(artist => <div className="itag row" key={artist.id}><li className="col">{artist.name}<i className="fas fa-times pl-1"></i></li></div>)}
     </div>
     </div>
   )

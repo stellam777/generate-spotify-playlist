@@ -11,7 +11,7 @@ body {
 }
 
 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;;
   font-weight: bold;
 }
 
@@ -33,8 +33,16 @@ h4 {
   color: white;
 }
 
+.functional-container {
+  position: relative;
+  z-index: 0;
+}
+
 ul.list-group.dropd {
   background-color: #7900ff;
+  position: absolute;
+  z-index: 1;
+  width: 100%;;
 }
 
 li.list-group-item {
@@ -53,23 +61,45 @@ li:hover {
   cursor: pointer;
 }
 
-.iTag:hover {
+div.itag.row {
+  background-color: #7900ff;
+  border-radius: 3px;
+  margin: 15px;
+  padding: 5px;
+}
+
+div.itag.row:hover {
   cursor: pointer;
 }
 
 .artist-img {
   object-fit: cover;
-  width: 250px;
+  width: 270px;
   height: 330px;
+  margin: 0px 5px 5px 5px;
+  border-radius: 4px;
 }
-
-/* ul.list-group.dropd {
-  z-index: 99;
-} */
 
 .btn.custom-btn {
   background-color: #00c4cc;
   color: white;
+}
+
+.btn.count-btn {
+  background-color: #7900ff;
+  color: white;
+}
+
+.btn.count-btn:hover {
+  background-color: #7900ff;
+  color: white;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 input.form-control {
@@ -94,8 +124,21 @@ input.form-control:focus {
   border-bottom: 1px solid #e43397;
 }
 
-input#flexCheckChecked.form-check-input.checkbox-color {
-  background-color: yellow;
+/* input[type=checkbox]:after {
+  content: " ";
+  background-color: #D7B1D7;
+  display: inline-block;
+  visibility: visible;
+} */
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #7900ff!important;
+  border-color: #7900ff!important;
+}
+
+.custom-checkbox .custom-control-input:active ~ .custom-control-label::before {
+  background-color: #7900ff;
+  border-color: #7900ff!important;
 }
 
 .album-img {
@@ -104,6 +147,7 @@ input#flexCheckChecked.form-check-input.checkbox-color {
   height: 100px;
   border-radius: 10px;
 }
+
 
 div.col-lg-10.col-md-10.col-sm-8.track-artist {
   padding-top: 20px;
@@ -117,30 +161,12 @@ div.col-lg-10.col-md-10.col-sm-8.track-artist {
   margin-bottom: 0;
 }
 
-div.play-img {
+.col-lg-2.col-md-2.col-sm-4.play-img-parent {
   position: relative;
 }
 
-.play-img:hover span {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background: url('./img/play-64.png') no-repeat;
-  background-position: 40% 55%;
-  background-size: 50%;
-}
-
-div.pause-img {
-  position: relative;
-}
-
-.pause-img span {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background: url('./img/pause-64.png') no-repeat;
-  background-position: 28% 55%;
-  background-size: 50%;
+.col-lg-2.col-md-2.col-sm-4.play-img-parent:hover {
+  cursor: pointer;
 }
 
 .track-line {
@@ -180,31 +206,126 @@ div.form-check {
   margin-bottom: 0px;
 }
 
-@media only screen and (max-width: 710px) {
-  .play-img span {
-    background-size: 35%;
-    background-position: 30% 55%;
+.dropdown-menu.show{
+  background-color: #7900ff;
+}
+
+a.dropdown-item {
+  color: white;
+}
+
+.user-info-greeting {
+  background-color: #7900ff;
+  color: white;
+  border-radius: 2px;
+  padding: 5px;
+  width: 100%;
+}
+
+.user-info-greeting p {
+  margin-bottom: 0;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+ul.d-flex.justify-content-around {
+  padding: 0px 0 10px 0;
+  margin: 0;
+  border-bottom: 1px solid #e43397;
+}
+
+.artist-img-container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 0;
+}
+
+.artist-name {
+  position: absolute;
+  text-align: left;
+  width: 100%;
+  height: 0%;
+  margin: auto;
+  top: 275px;
+  left: 10px;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  font-weight: bold;
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+  .artist-img {
+    width: 60px;
+    height: 45px;
   }
 
-  .pause-img span {
-    background-size: 35%;
-    background-position: 25% 55%;
+  .artist-name {
+    font-size: 8px;
+    top: 50px;
+    left: 0;
+  }
+
+  .user-info-greeting p {
+    font-size: 10px;
   }
 }
 
-@media only screen and (max-width: 570px) {
-  .play-img span {
-    background-size: 25%;
-    background-position: 18% 53%;
+@media only screen and (min-width: 480px) and (max-width: 767px){
+  .artist-img {
+    width: 120px;
+    height: 180px;
   }
 
-  .pause-img span {
-    background-size: 25%;
-    background-position: 15% 55%;
+  .artist-name {
+    font-size: 10px;
+    top: 140px;
   }
 }
 
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .artist-img {
+    width: 165px;
+    height: 230px;
+  }
 
+  .artist-name {
+    font-size: 12px;
+    top: 190px;
+  }
+}
 
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .artist-img {
+    width: 225px;
+    height: 300px;
+  }
 
+  .artist-name {
+    top: 255px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .artist-img {
+    width: 270px;
+    height: 330px;
+  }
+
+  .artist-name {
+    position: absolute;
+    text-align: left;
+    width: 100%;
+    height: 0%;
+    margin: auto;
+    top: 275px;
+    left: 10px;
+    bottom: 0;
+    right: 0;
+    z-index: 51;
+    font-weight: bold;
+  }
+}
 

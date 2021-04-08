@@ -22,17 +22,18 @@ const UserInfo = ({ auth, username }) => {
   }, []);
 
   return (
-    <div className='container'>
-      <div className='mt-4'>
-        <p>Hi, {username}. Your top artists:</p>
+    <div>
+      <div className='mt-2 mb-2 user-info-greeting d-flex justify-content-between'>
+        <p>Your top artists on Spotify:</p>
+        <p>Hi, {username}!</p>
       </div>
-      <ul className='row m-0 p-0'>
+      <ul className='d-flex justify-content-around'>
         {topArtists.length &&
           topArtists.map((artist) => {
             return (
-              <div key={artist.id} className='col-lg-3 col-sm-12 col-md-6'>
-                <img className='artist-img' src={artist.images[1].url} />
-                <li>{artist.name}</li>
+              <div key={artist.id} className="artist-img-container">
+                <li className="artist-name">{artist.name}</li>
+                <div className="overlay"><img className='artist-img' src={artist.images[1].url}/></div>
               </div>
             );
           })}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaPlay, FaPause } from 'react-icons/fa';
 
 const SingleTrack = ({
   imageUrl,
@@ -13,6 +14,7 @@ const SingleTrack = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playerData, setPlayerData] = useState(null);
+  const [isHovered, setIsHovered] = useState(null);
   const token = auth.token;
 
   const millisToMinutesAndSeconds = (duration) => {
@@ -35,8 +37,6 @@ const SingleTrack = ({
         }
       );
       setIsPlaying(true);
-      e.target.parentElement.classList.add("pause-img");
-      e.target.parentElement.classList.remove("play-img");
     }
   };
 
@@ -55,18 +55,23 @@ const SingleTrack = ({
         }
       );
       setIsPlaying(false);
-      e.target.parentElement.classList.remove("pause-img");
-      e.target.parentElement.classList.add("play-img");
     }
   };
 
   return (
     <div
-      className='row m-4 flex-nowrap'
+      className='row mt-4 ml-0 mr-4 flex-nowrap'
       onClick={isPlaying ? pause : (e) => play(uri, e)}
     >
-      <div className='col-lg-2 col-md-2 col-sm-4 play-img'>
-        <span></span>
+      <div
+        className='col-lg-2 col-md-2 col-sm-4 play-img-parent'
+        onMouseEnter={() => setIsHovered(!isHovered)}
+        onMouseLeave={() => setIsHovered(!isHovered)}
+        >
+        <span>
+          {isHovered && !isPlaying && <FaPlay size={50} style={{ position: 'absolute', left: '40', top: '30' }}/>}
+          {isPlaying && <FaPause size={50} style={{ position: 'absolute', left: '40', top: '30' }}/>}
+        </span>
         <img className='album-img' src={imageUrl} />
       </div>
       <div className='col-lg-10 col-md-10 col-sm-8 track-artist'>
