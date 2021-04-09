@@ -10,6 +10,8 @@ const dotenv = require('dotenv');
 //Import env file
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+//if (process.env.NODE_ENV !== 'production') require('./env')
+
 //Logging middleware
 app.use(morgan('dev'));
 
