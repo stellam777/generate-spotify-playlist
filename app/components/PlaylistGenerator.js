@@ -113,7 +113,6 @@ const PlaylistGenerator = (props) => {
       if (mounted) {
         setRecResults(data.tracks);
       }
-
     }
     return () => (mounted = false);
   };
@@ -121,7 +120,7 @@ const PlaylistGenerator = (props) => {
   //if user auth then run this useEffect!
   useEffect(async () => {
     //get user
-    if(auth) {
+    if (auth) {
       let mounted = true;
       const { data } = await axios.get('https://api.spotify.com/v1/me', {
         headers: {
@@ -139,26 +138,11 @@ const PlaylistGenerator = (props) => {
     }
   }, []);
 
-  useEffect(async () => {
-    const grant_type = 'client_credentials';
-    const clientId = '2182cda3beca4541ba6f24115112a637';
-    const secret = '2a858d65b0f040739c77884ceaaf9fd8';
-    const basicHeader = 'MjE4MmNkYTNiZWNhNDU0MWJhNmYyNDExNTExMmE2Mzc6MmE4NThkNjViMGYwNDA3MzljNzc4ODRjZWFhZjlmZDg=';
-
-    const { data } = await axios.post(
-      'https://accounts.spotify.com/api/token',
-      querystring.stringify({
-        grant_type,
-      }),
-      {
-        headers: {
-          Authorization: `Basic ${basicHeader}`,
-        },
-      }
-    );
-    setClientToken(data.access_token);
-    // console.log('CLIENT TOKEN', data);
-  }, []);
+  // useEffect(async () => {
+  //   const { data } = axios.get('/');
+  //   //setClientToken(data.access_token);
+  //   console.log('CLIENT TOKEN', data);
+  // })
 
   useEffect(async () => {
     getRecs();
@@ -168,14 +152,17 @@ const PlaylistGenerator = (props) => {
     <div className='container mt-4'>
       <div className='d-flex justify-content-between'>
         <img src={logo} />
-        {auth ? (<a href={'/auth/logout'}>
-          <button className='btn custom-btn mt-4'>Log Out</button>
-        </a>) :
-        (<a href={'/auth/login'}>
-          <button className='btn custom-btn mt-4' type='click'>
-            Login with Spotify
-          </button>
-        </a>)}
+        {auth ? (
+          <a href={'/auth/logout'}>
+            <button className='btn custom-btn mt-4'>Log Out</button>
+          </a>
+        ) : (
+          <a href={'/auth/login'}>
+            <button className='btn custom-btn mt-4' type='click'>
+              Login with Spotify
+            </button>
+          </a>
+        )}
       </div>
       <div className='mt-4'>
         <h1 className='mt-4'>Discover new music</h1>

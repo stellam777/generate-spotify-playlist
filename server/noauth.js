@@ -20,26 +20,21 @@ router.get('/', async (req, res) => {
       },
     }
   );
-  const sessionJWTObject = {
-    token: data.access_token,
-  };
-  console.log("DATAAAAAAAAAAAAAAAA", data)
-  req.session.jwt = jwt.sign(sessionJWTObject, process.env.JWT_SECRET_KEY_TWO);
-  return res.redirect('/');
+  res.json(data);
 });
 
-router.get('/current-session', (req, res) => {
-  jwt.verify(
-    req.session.jwt,
-    process.env.JWT_SECRET_KEY_TWO,
-    (err, decodedToken) => {
-      if (err || !decodedToken) {
-        res.send(false);
-      } else {
-        res.send(decodedToken);
-      }
-    }
-  );
-});
+// router.get('/current-session', (req, res) => {
+//   jwt.verify(
+//     req.session.jwt,
+//     process.env.JWT_SECRET_KEY_TWO,
+//     (err, decodedToken) => {
+//       if (err || !decodedToken) {
+//         res.send(false);
+//       } else {
+//         res.send(decodedToken);
+//       }
+//     }
+//   );
+// });
 
 module.exports = router;
