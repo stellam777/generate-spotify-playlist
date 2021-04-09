@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const dotenv = require('dotenv');
 
+
 //Import env file
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 

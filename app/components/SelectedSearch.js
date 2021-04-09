@@ -73,6 +73,7 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
         //if the e.target artist string is in the justArtist array then filter selectedSearchStrings array to NOT include artist, and then setState on that filtered array
         setSelectedSearchStrings(selectedSearchStrings.filter((artist, i) => i !== itemToDeleteIndex));
         setSeedValues(seeds);
+        localStorage.clear();
       }
     }
   }
