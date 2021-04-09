@@ -26,12 +26,6 @@ function App() {
     };
   }, [auth]);
 
-  // useEffect(async () => {
-  //   const { data } = await axios.get('/current-session');
-  //   setClientToken(data.token);
-  //   console.log('CLIENT TOKEN', data.token);
-  // });
-
   const handleLoadSuccess = () => {
     setScriptLoaded(true);
     console.log('Script loaded');

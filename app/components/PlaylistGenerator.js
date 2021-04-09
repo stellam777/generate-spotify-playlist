@@ -138,11 +138,10 @@ const PlaylistGenerator = (props) => {
     }
   }, []);
 
-  // useEffect(async () => {
-  //   const { data } = axios.get('/');
-  //   //setClientToken(data.access_token);
-  //   console.log('CLIENT TOKEN', data);
-  // })
+  useEffect(async () => {
+    const { data } = await axios.get('/auth');
+    setClientToken(data.access_token);
+  }, []);
 
   useEffect(async () => {
     getRecs();

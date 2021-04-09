@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
-const { User, db } = require('./server/db');
 const dotenv = require('dotenv');
 
 //Import env file
@@ -47,7 +46,6 @@ passport.deserializeUser((id, done) => {
 //Serve static files
 app.use(express.static(path.join(__dirname, './public')));
 
-//app.use('/', require('./server/noauth'));
 app.use('/auth', require('./server/auth'));
 
 app.get('*', function (req, res) {
@@ -63,8 +61,8 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3000;
 
-db.sync().then(function () {
+//db.sync().then(function () {
   app.listen(port, function () {
     console.log(`Serving up sounds on port ${port}`);
   });
-});
+//});

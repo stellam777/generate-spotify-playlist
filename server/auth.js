@@ -3,6 +3,31 @@ const querystring = require('querystring');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
+//For client side token only - for using Spotify API to perform user-less calls (search, get recommended tracks)
+router.get('/', async (req, res, next) => {
+  try {
+    const grant_type = 'client_credentials';
+    const clientId = process.env.SPOTIFY_CLIENT_ID_NOAUTH;
+    const secret = process.env.SPOTIFY_CLIENT_SECRET_NOAUTH;
+    const basicHeader = Buffer.from(`${clientId}:${secret}`).toString('base64');
+
+    const { data } = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      querystring.stringify({
+        grant_type,
+      }),
+      {
+        headers: {
+          Authorization: `Basic ${basicHeader}`,
+        },
+      }
+    );
+    res.send(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 //Step 1: request authorization. This get request is requesting authorization for our app, and prompts the user to login via Spotify's auth flow
 router.get('/login', (req, res) => {
   res.redirect(
