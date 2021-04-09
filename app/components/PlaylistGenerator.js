@@ -145,8 +145,11 @@ const PlaylistGenerator = (props) => {
     if(localStorage.getItem('tracks') !== null) {
       setRecResults(JSON.parse(localStorage.getItem('tracks')));
       setSelectedSearchStrings(JSON.parse(localStorage.getItem('artistSearchTags')));
-      setSeedValues(JSON.parse(localStorage.getItem('seeds')));
       setIsSelected(true);
+
+      if(localStorage.getItem('seeds') !== null) {
+        setSeedValues(JSON.parse(localStorage.getItem('seeds')));
+      }
     }
   }, [])
 
