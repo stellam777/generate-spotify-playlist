@@ -1,12 +1,32 @@
 const router = require('express').Router();
-const { User } = require('./db');
 const querystring = require('querystring');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-// router.get('/me', async (req, res, next) => {
-//   res.json(req.user || {});
-// })
+//For client side token only - for using Spotify API to perform user-less calls (search, get recommended tracks)
+router.get('/', async (req, res, next) => {
+  try {
+    const grant_type = 'client_credentials';
+    const clientId = process.env.SPOTIFY_CLIENT_ID_NOAUTH;
+    const secret = process.env.SPOTIFY_CLIENT_SECRET_NOAUTH;
+    const basicHeader = Buffer.from(`${clientId}:${secret}`).toString('base64');
+
+    const { data } = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      querystring.stringify({
+        grant_type,
+      }),
+      {
+        headers: {
+          Authorization: `Basic ${basicHeader}`,
+        },
+      }
+    );
+    res.send(data);
+  } catch (err) {
+    next(err);
+  }
+});
 
 //Step 1: request authorization. This get request is requesting authorization for our app, and prompts the user to login via Spotify's auth flow
 router.get('/login', (req, res) => {
@@ -15,7 +35,8 @@ router.get('/login', (req, res) => {
       response_type: 'code',
       client_id: process.env.SPOTIFY_CLIENT_ID,
       show_dialog: true,
-      scope: 'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private user-top-read user-modify-playback-state user-read-currently-playing user-read-playback-state streaming',
+      scope:
+        'playlist-modify-public playlist-modify-private streaming user-read-email user-read-private user-top-read user-modify-playback-state user-read-currently-playing user-read-playback-state streaming',
       redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     })}`
   );
@@ -72,43 +93,5 @@ router.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect(`/`);
 });
-
-// router.put('/login', async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({
-//       where: {
-//         email: req.body.email,
-//         password: req.body.password
-//       }
-//     })
-//     if(user) {
-//       req.login(user, (err) => err ? next(err) : res.json(user))
-//     } else {
-//       const err = new Error('Incorrect email or password')
-//       err.status = 401;
-//       throw err;
-//     }
-
-//   } catch(err) {
-//     next(err);
-//   }
-// })
-
-// router.put('/signup', async (req, res, next) => {
-//   try {
-//     const user = await User.create(req.body);
-//     req.login(user, (err) => err ? next(err) : res.json(user));
-//   } catch(err) {
-//     next(err);
-//   }
-// })
-
-// router.delete('/logout', async (req, res, next) => {
-//   req.logout();
-//   req.session.destroy((err) => {
-//     if(err) return next(err);
-//     res.status(204).end();
-//   })
-// })
 
 module.exports = router;

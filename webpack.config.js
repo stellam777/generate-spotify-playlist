@@ -1,5 +1,7 @@
+const dotenv = require('dotenv');
+
 module.exports = {
-  entry: ['regenerator-runtime/runtime','./app/main.js'], // assumes your entry point is the index.js in the root of your project folder
+  entry: ['regenerator-runtime/runtime', './app/main.js'], // assumes your entry point is the index.js in the root of your project folder
   mode: 'development',
   output: {
     path: __dirname, // assumes your bundle.js will also be in the root of your project folder
@@ -29,7 +31,7 @@ module.exports = {
       // },
       {
         test: /\.(png|jpg|gif)$/,
-        loader: 'url-loader'
+        loader: 'url-loader',
       },
       // {
       //   test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
@@ -45,11 +47,8 @@ module.exports = {
       // },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ]
-      }
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
 };

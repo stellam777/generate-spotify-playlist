@@ -10,7 +10,8 @@ const SingleTrack = ({
   auth,
   deviceId,
   uri,
-  playerState
+  playerState,
+  externalUrl
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playerData, setPlayerData] = useState(null);
@@ -23,21 +24,25 @@ const SingleTrack = ({
     return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
   };
 
-  const play = async (uri, e) => {
+  const play = async (uri, externalUrl, e) => {
     //if playerState is paused
-    if(playerState || playerState === null) {
-      const selectedUri = JSON.stringify({ uris: [uri] });
-      const { data } = await axios.put(
-        `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
-        selectedUri,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setIsPlaying(true);
-    }
+    if(auth) {
+      if(playerState || playerState === null) {
+          const selectedUri = JSON.stringify({ uris: [uri] });
+          const { data } = await axios.put(
+            `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
+            selectedUri,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        setIsPlaying(true);
+      }
+    } else {
+        window.open(externalUrl);
+      }
   };
 
   const pause = async (e) => {
@@ -61,7 +66,7 @@ const SingleTrack = ({
   return (
     <div
       className='row mt-4 ml-0 mr-4 flex-nowrap'
-      onClick={isPlaying ? pause : (e) => play(uri, e)}
+      onClick={isPlaying ? pause : (e) => play(uri, externalUrl, e)}
     >
       <div
         className='col-lg-2 col-md-2 col-sm-4 play-img-parent'

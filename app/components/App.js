@@ -3,8 +3,8 @@ import { Link, Route } from 'react-router-dom';
 import axios from 'axios';
 import Script from 'react-load-script';
 import Home from './Home';
+import querystring from 'query-string';
 import PlaylistGenerator from './PlaylistGenerator';
-//TESTING
 
 function App() {
   const [auth, setAuth] = useState(null);
@@ -13,6 +13,7 @@ function App() {
   const [scriptError, setScriptError] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [playerState, setPlayerState] = useState(null);
+  //const [clientToken, setClientToken] = useState(null);
 
   useEffect(async () => {
     const { data } = await axios.get('/auth/current-session');
@@ -92,18 +93,16 @@ function App() {
   };
 
   //when you have new token in place then can get rid of this!
-  if (!auth || auth === false) {
-    return (
-      <div className='container mt-4'>
-        <Route to='/' component={Home} />
-      </div>
-    );
-  }
+  // if (!auth || auth === false) {
+  //   return (
+  //     <div className='container mt-4'>
+  //       <Route to='/' component={Home} />
+  //     </div>
+  //   );
+  // }
 
   if (auth) {
     return (
-      // <div>
-      //   {auth ? (
       <div>
         <header>
           <Script
@@ -120,12 +119,14 @@ function App() {
         />
       </div>
     );
-    //   ) : (
-    //     <div>
-    //       <PlaylistGenerator />
-    //     </div>
-    //   )}
-    // </div>
+  }
+
+  if (!auth || auth === false) {
+    return (
+      <div>
+        <PlaylistGenerator />
+      </div>
+    );
   }
 }
 

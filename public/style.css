@@ -177,11 +177,11 @@ div.col-lg-10.col-md-10.col-sm-8.track-artist {
   padding-top: 15px;
 }
 
-.row.m-4.flex-nowrap {
+.row.mt-4.ml-0.mr-4.flex-nowrap {
   transition: all .5s;
 }
 
-.row.m-4.flex-nowrap:hover {
+.row.mt-4.ml-0.mr-4.flex-nowrap:hover {
   transform: scale(1.075);
   transition: all .5s;
 }
@@ -253,6 +253,15 @@ ul.d-flex.justify-content-around {
   right: 0;
   z-index: 1;
   font-weight: bold;
+}
+
+/* #footer {
+  position:fixed;
+  bottom:0;
+} */
+
+#footer a {
+  color: white
 }
 
 
