@@ -61,7 +61,7 @@ const seeds = {
 }
 
 const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recResults, setSeedValues, seedValues }) => {
-
+  localStorage.setItem('artistSearchTags', JSON.stringify(selectedSearchStrings));
   const removeArtist = (e) => {
     e.preventDefault();
     if(e.target.classList.contains('fas')) {

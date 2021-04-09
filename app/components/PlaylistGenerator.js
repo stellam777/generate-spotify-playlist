@@ -8,12 +8,12 @@ import initialSeeds from './seeds';
 import UserInfo from './UserInfo';
 import Player from './Player';
 import logo from './traxlogo.png';
-import querystring from 'query-string';
 import Footer from './Footer';
 
 const PlaylistGenerator = (props) => {
   const auth = props.auth || '';
   const token = auth.token || '';
+  const clientToken = props.clientToken;
   const deviceId = props.deviceId;
   const playerState = props.playerState;
 
@@ -41,8 +41,6 @@ const PlaylistGenerator = (props) => {
   const [userId, setUserId] = useState('');
 
   const [songCount, setSongCount] = useState(25);
-
-  const [clientToken, setClientToken] = useState(null);
 
   const searchSpotify = async () => {
     const url = 'https://api.spotify.com/v1/search';
@@ -138,14 +136,18 @@ const PlaylistGenerator = (props) => {
     }
   }, []);
 
-  useEffect(async () => {
-    const { data } = await axios.get('/auth');
-    setClientToken(data.access_token);
-  }, []);
 
   useEffect(async () => {
     getRecs();
   }, [selectedSearchStrings, seedValues, songCount]);
+
+  useEffect(() => {
+    if(localStorage.getItem('tracks') !== null) {
+      setRecResults(JSON.parse(localStorage.getItem('tracks')));
+      setSelectedSearchStrings(JSON.parse(localStorage.getItem('artistSearchTags')));
+      setIsSelected(true);
+    }
+  }, [])
 
   return (
     <div className='container mt-4'>

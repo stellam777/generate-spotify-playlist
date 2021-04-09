@@ -56,7 +56,7 @@ class AddToSpotifyForm extends React.Component {
       <div className="add-playlist-form mt-4">
         {this.props.auth && <form onSubmit={this.handleSubmit}>
           <div className='form-group'>
-            <label htmlFor='name'>Playlist Name</label>
+            <label htmlFor='name'>Playlist Name:</label>
             <input
               type='text'
               autoComplete='off'
