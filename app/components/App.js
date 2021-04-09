@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Link, Route } from 'react-router-dom';
 import axios from 'axios';
 import Script from 'react-load-script';
-import Home from './Home';
-import querystring from 'query-string';
 import PlaylistGenerator from './PlaylistGenerator';
 
 function App() {
   const [auth, setAuth] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
   const [scriptLoaded, setScriptLoaded] = useState(null);
   const [scriptError, setScriptError] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [playerState, setPlayerState] = useState(null);
-  //const [clientToken, setClientToken] = useState(null);
+  const [clientToken, setClientToken] = useState(null);
 
   useEffect(async () => {
     const { data } = await axios.get('/auth/current-session');
@@ -21,10 +18,17 @@ function App() {
   }, []);
 
   useEffect(async () => {
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      handleLoadSuccess();
-    };
+    if(auth) {
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        handleLoadSuccess();
+      };
+    }
   }, [auth]);
+
+  useEffect(async () => {
+    const { data } = await axios.get('/auth');
+    setClientToken(data.access_token);
+  }, []);
 
   const handleLoadSuccess = () => {
     setScriptLoaded(true);
@@ -92,15 +96,6 @@ function App() {
     console.log('Script loaded');
   };
 
-  //when you have new token in place then can get rid of this!
-  // if (!auth || auth === false) {
-  //   return (
-  //     <div className='container mt-4'>
-  //       <Route to='/' component={Home} />
-  //     </div>
-  //   );
-  // }
-
   if (auth) {
     return (
       <div>
@@ -116,6 +111,7 @@ function App() {
           deviceId={deviceId}
           auth={auth}
           playerState={playerState}
+          clientToken={clientToken}
         />
       </div>
     );
@@ -124,7 +120,7 @@ function App() {
   if (!auth || auth === false) {
     return (
       <div>
-        <PlaylistGenerator />
+        <PlaylistGenerator clientToken={clientToken} />
       </div>
     );
   }

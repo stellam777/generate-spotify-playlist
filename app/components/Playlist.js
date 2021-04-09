@@ -2,7 +2,7 @@ import React from 'react';
 import SingleTrack from './SingleTrack';
 
 const Playlist = ({ recResults, auth, deviceId, playerState, setSongCount, songCount }) => {
-
+  localStorage.setItem('tracks', JSON.stringify(recResults));
   return (
     <div className='col-lg-9'>
       <div className='row mt-4 ml-0 mr-4'>
