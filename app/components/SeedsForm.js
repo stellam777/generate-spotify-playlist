@@ -92,7 +92,8 @@ const SeedsForm = ({ seedValues, setSeedValues }) => {
   }
 
   const setData = () => {
-    setSeedValues(helperVar)
+    setSeedValues(helperVar);
+    localStorage.setItem('seeds', JSON.stringify(helperVar));
   }
 
   const resetSeeds = () => {
