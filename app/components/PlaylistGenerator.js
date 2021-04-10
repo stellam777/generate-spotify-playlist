@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import SelectedSearch from './SelectedSearch';
 import Playlist from './Playlist';
@@ -41,6 +41,8 @@ const PlaylistGenerator = (props) => {
   const [userId, setUserId] = useState('');
 
   const [songCount, setSongCount] = useState(25);
+
+  const isInitialMount = useRef(true);
 
   const searchSpotify = async () => {
     const url = 'https://api.spotify.com/v1/search';
@@ -86,7 +88,6 @@ const PlaylistGenerator = (props) => {
   };
 
   const getRecs = async () => {
-    let mounted = true;
     const url = 'https://api.spotify.com/v1/recommendations';
     let requestString;
     if (selectedSearchStrings.length > 0) {
@@ -108,11 +109,8 @@ const PlaylistGenerator = (props) => {
           Authorization: `Bearer ${clientToken}`,
         },
       });
-      if (mounted) {
-        setRecResults(data.tracks);
-      }
+      setRecResults(data.tracks);
     }
-    return () => (mounted = false);
   };
 
   //if user auth then run this useEffect!
@@ -136,9 +134,12 @@ const PlaylistGenerator = (props) => {
     }
   }, []);
 
-
   useEffect(async () => {
-    getRecs();
+   if(isInitialMount.current) {
+     isInitialMount.current = false;
+   } else {
+      getRecs();
+   }
   }, [selectedSearchStrings, seedValues, songCount]);
 
   useEffect(() => {
