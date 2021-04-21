@@ -11,7 +11,7 @@ const SingleTrack = ({
   deviceId,
   uri,
   playerState,
-  externalUrl
+  externalUrl,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playerData, setPlayerData] = useState(null);
@@ -26,28 +26,28 @@ const SingleTrack = ({
 
   const play = async (uri, externalUrl, e) => {
     //if playerState is paused
-    if(auth) {
-      if(playerState || playerState === null) {
-          const selectedUri = JSON.stringify({ uris: [uri] });
-          const { data } = await axios.put(
-            `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
-            selectedUri,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+    if (auth) {
+      if (playerState || playerState === null) {
+        const selectedUri = JSON.stringify({ uris: [uri] });
+        const { data } = await axios.put(
+          `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
+          selectedUri,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setIsPlaying(true);
       }
     } else {
-        window.open(externalUrl);
-      }
+      window.open(externalUrl);
+    }
   };
 
   const pause = async (e) => {
     //if playerState is not paused
-    if(!playerState) {
+    if (!playerState) {
       const test = JSON.stringify({});
       const { data } = await axios.put(
         `https://api.spotify.com/v1/me/player/pause?device_id=${deviceId}`,
@@ -65,23 +65,35 @@ const SingleTrack = ({
 
   return (
     <div
-      className='row mt-4 ml-0 mr-4 flex-nowrap'
+      className='row mt-4 ml-0 mr-4 flex-nowrap justify-content-around'
       onClick={isPlaying ? pause : (e) => play(uri, externalUrl, e)}
     >
       <div
-        className='col-lg-2 col-md-2 col-sm-4 play-img-parent'
+        // className='col-lg-2 col-md-2 col-sm-2 col-xs-10 play-img-parent'
+        className='col-2 play-img-parent'
         onMouseEnter={() => setIsHovered(!isHovered)}
         onMouseLeave={() => setIsHovered(!isHovered)}
-        >
+      >
         <span>
-          {isHovered && !isPlaying && <FaPlay size={50} style={{ position: 'absolute', left: '40', top: '30' }}/>}
-          {isPlaying && <FaPause size={50} style={{ position: 'absolute', left: '40', top: '30' }}/>}
+          {isHovered && !isPlaying && (
+            <FaPlay
+              size={50}
+              style={{ position: 'absolute', left: '40', top: '30' }}
+            />
+          )}
+          {isPlaying && (
+            <FaPause
+              size={50}
+              style={{ position: 'absolute', left: '40', top: '30' }}
+            />
+          )}
         </span>
         <img className='album-img' src={imageUrl} />
       </div>
-      <div className='col-lg-10 col-md-10 col-sm-8 track-artist'>
+      {/* <div className='col-lg-10 col-md-10 col-sm-10 col-xs-10 track-artist'> */}
+      <div className='col-10 track-artist'>
         <div className='d-flex justify-content-between'>
-          <h4 className="track-name">{trackName}</h4>
+          <h4 className='track-name'>{trackName}</h4>
           <p className='text-right'>{millisToMinutesAndSeconds(duration)}</p>
         </div>
         <p className='track-line'>{artistName}</p>

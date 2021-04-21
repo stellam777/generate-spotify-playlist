@@ -135,36 +135,38 @@ const PlaylistGenerator = (props) => {
   }, []);
 
   useEffect(async () => {
-   if(isInitialMount.current) {
-     isInitialMount.current = false;
-   } else {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
       getRecs();
-   }
+    }
   }, [selectedSearchStrings, seedValues, songCount]);
 
   useEffect(() => {
-    if(localStorage.getItem('tracks') !== null) {
+    if (localStorage.getItem('tracks') !== null) {
       setRecResults(JSON.parse(localStorage.getItem('tracks')));
-      setSelectedSearchStrings(JSON.parse(localStorage.getItem('artistSearchTags')));
+      setSelectedSearchStrings(
+        JSON.parse(localStorage.getItem('artistSearchTags'))
+      );
       setIsSelected(true);
 
-      if(localStorage.getItem('seeds') !== null) {
+      if (localStorage.getItem('seeds') !== null) {
         setSeedValues(JSON.parse(localStorage.getItem('seeds')));
       }
     }
-  }, [])
+  }, []);
 
   return (
     <div className='container mt-4'>
-      <div className='d-flex justify-content-between'>
-        <img src={logo} />
+      <div className='d-flex justify-content-between align-items-center'>
+        <img className='logo' src={logo} />
         {auth ? (
           <a href={'/auth/logout'}>
-            <button className='btn custom-btn mt-4'>Log Out</button>
+            <button className='btn custom-btn btn-sm'>Log Out</button>
           </a>
         ) : (
           <a href={'/auth/login'}>
-            <button className='btn custom-btn mt-4' type='click'>
+            <button className='btn custom-btn btn-sm' type='click'>
               Login with Spotify
             </button>
           </a>
