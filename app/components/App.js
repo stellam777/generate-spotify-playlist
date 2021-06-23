@@ -13,6 +13,7 @@ function App() {
   const [clientToken, setClientToken] = useState(null);
 
   useEffect(async () => {
+    //Auth call to backend for logged in user/app authorization data - we setAuth w/ user's data
     const { data } = await axios.get('/auth/current-session');
     setAuth(data);
   }, []);
@@ -26,6 +27,7 @@ function App() {
   }, [auth]);
 
   useEffect(async () => {
+    //auth call to backend for non logged in user spotiify token
     const { data } = await axios.get('/auth');
     setClientToken(data.access_token);
   }, []);

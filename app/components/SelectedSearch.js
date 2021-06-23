@@ -64,8 +64,6 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
   localStorage.setItem('artistSearchTags', JSON.stringify(selectedSearchStrings));
   const removeArtist = (e) => {
     e.preventDefault();
-    if(e.target.classList.contains('fas')) {
-      e.target.parentElement.remove();
 
     let justArtist = selectedSearchStrings.map(artist => artist.name);
     let itemToDeleteIndex = justArtist.indexOf(e.target.parentElement.innerText);
@@ -76,13 +74,15 @@ const SelectedSearch = ({ setSelectedSearchStrings, selectedSearchStrings, recRe
         localStorage.clear();
       }
     }
-  }
+
 
   return (
-    <div className="container">
-    <div onClick={removeArtist} className="row">
-      {selectedSearchStrings.map(artist => <div className="itag row" key={artist.id}><li className="col">{artist.name}<i className="fas fa-times pl-1"></i></li></div>)}
-    </div>
+    <div>
+      <div className="container">
+      <div onClick={removeArtist} className="row">
+        {selectedSearchStrings.map(artist => <div className="itag row" key={artist.id}><li className="col">{artist.name}<i className="fas fa-times pl-1"></i></li></div>)}
+      </div>
+      </div>
     </div>
   )
 }

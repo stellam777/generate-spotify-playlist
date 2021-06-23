@@ -5,13 +5,10 @@ const Playlist = ({ recResults, auth, deviceId, playerState, setSongCount, songC
   localStorage.setItem('tracks', JSON.stringify(recResults));
   return (
     <div className='col-lg-9'>
-      {/* <div className='row mt-4 ml-0 mr-4'> */}
       <div className='d-flex justify-content-between align-items-center mt-4'>
-        {/* <div className='col-6 ml-0'> */}
         <div>
           <h2>Your Playlist:</h2>
         </div>
-        {/* <div className='col-6'> */}
         <div>
           <div className="dropdown">
             <button className="btn btn-sm count-btn dropdown-toggle float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

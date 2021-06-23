@@ -12,7 +12,9 @@ import Footer from './Footer';
 
 const PlaylistGenerator = (props) => {
   const auth = props.auth || '';
+  //you use the token found on auth to make user specific API calls
   const token = auth.token || '';
+  //you use clientToken to make non user specific API calls
   const clientToken = props.clientToken;
   const deviceId = props.deviceId;
   const playerState = props.playerState;
@@ -178,13 +180,6 @@ const PlaylistGenerator = (props) => {
       <div className='functional-container'>
         <div className='form-group mb-0'>
           <input
-            placeholder='Search by Artist'
-            autoComplete='off'
-            type='text'
-            name='search'
-            className='form-control'
-            onChange={changeHandler}
-            value={searchString}
           />
         </div>
         <ul className='list-group dropd'>

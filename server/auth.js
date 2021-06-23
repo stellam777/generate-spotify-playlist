@@ -3,6 +3,7 @@ const querystring = require('querystring');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
+//All mounted on /auth
 //For client side token only - for using Spotify API to perform user-less calls (search, get recommended tracks)
 router.get('/', async (req, res, next) => {
   try {
