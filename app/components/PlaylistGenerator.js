@@ -178,8 +178,12 @@ const PlaylistGenerator = (props) => {
         <h1 className='mt-4'>Discover new music</h1>
       </div>
       <div className='functional-container'>
-        <div className='form-group mb-0'>
+        <div className='input-group'>
           <input
+            className='flex-fill mr-2 form-control'
+            placeholder='Search by artist or song title here'
+            onChange={changeHandler}
+            onKeyDown={changeHandler}
           />
         </div>
         <ul className='list-group dropd'>
@@ -195,16 +199,16 @@ const PlaylistGenerator = (props) => {
             ))}
         </ul>
         {auth && <UserInfo username={username} auth={auth} />}
+        {isSelected && (
+          <SelectedSearch
+            recResults={recResults}
+            selectedSearchStrings={selectedSearchStrings}
+            setSelectedSearchStrings={setSelectedSearchStrings}
+            seedValues={seedValues}
+            setSeedValues={setSeedValues}
+          />
+        )}
         <div className='row'>
-          {isSelected && (
-            <SelectedSearch
-              recResults={recResults}
-              selectedSearchStrings={selectedSearchStrings}
-              setSelectedSearchStrings={setSelectedSearchStrings}
-              seedValues={seedValues}
-              setSeedValues={setSeedValues}
-            />
-          )}
           {selectedSearchStrings.length ? (
             <Playlist
               recResults={recResults}
@@ -223,7 +227,6 @@ const PlaylistGenerator = (props) => {
                 auth={auth}
                 userId={userId}
                 recResults={recResults}
-                auth={auth}
               />
               <SeedsForm
                 seedValues={seedValues}
