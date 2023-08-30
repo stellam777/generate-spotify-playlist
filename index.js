@@ -7,11 +7,10 @@ const session = require('express-session');
 const passport = require('passport');
 const dotenv = require('dotenv');
 
-
 //Import env file
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-//if (process.env.NODE_ENV !== 'production') require('./env')
+if (process.env.NODE_ENV !== 'production') require('./env');
 
 //Logging middleware
 app.use(morgan('dev'));
@@ -65,7 +64,7 @@ app.use(function (err, req, res, next) {
 const port = process.env.PORT || 3000;
 
 //db.sync().then(function () {
-  app.listen(port, function () {
-    console.log(`Serving up sounds on port ${port}`);
-  });
+app.listen(port, function () {
+  console.log(`Serving up sounds on port ${port}`);
+});
 //});

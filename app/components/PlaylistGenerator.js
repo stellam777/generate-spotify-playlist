@@ -178,12 +178,15 @@ const PlaylistGenerator = (props) => {
         <h1 className='mt-4'>Discover new music</h1>
       </div>
       <div className='functional-container'>
-        <div className='input-group'>
+        <div className='form-group mb-0'>
           <input
-            className='flex-fill mr-2 form-control'
-            placeholder='Search by artist or song title here'
+            placeholder='Search by Artist'
+            autoComplete='off'
+            type='text'
+            name='search'
+            className='form-control'
             onChange={changeHandler}
-            onKeyDown={changeHandler}
+            value={searchString}
           />
         </div>
         <ul className='list-group dropd'>
